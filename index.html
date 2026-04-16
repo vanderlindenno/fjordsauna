@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FjordSauna – Lei badstue</title>
+
+<style>
+:root {
+    --primary:#2b5d6e;
+    --bg:#f5f7fa;
+    --card:#fff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:var(--bg);
+    color:#333;
+}
+
+header {
+    background:var(--primary);
+    color:white;
+    text-align:center;
+    padding:2.2rem 1rem;
+}
+
+main {
+    max-width:820px;
+    margin:auto;
+    padding:1rem;
+}
+
+.card {
+    background:var(--card);
+    border-radius:8px;
+    padding:1.4rem;
+    margin-bottom:1rem;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+h2 { color:var(--primary); margin-top:0; }
+
+ul { padding-left:1.2rem; }
+
+/* Gallery thumbnails */
+.gallery {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+    gap:10px;
+}
+
+.gallery img {
+    width:100%;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Lightbox */
+.lightbox {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.lightbox img {
+    max-width:90%;
+    max-height:80%;
+    border-radius:8px;
+}
+
+.nav,.close {
+    position:absolute;
+    color:white;
+    font-size:2.5rem;
+    cursor:pointer;
+    user-select:none;
+}
+
+.prev { left:15px; top:50%; }
+.next { right:15px; top:50%; }
+.close { top:15px; right:20px; }
+
+iframe {
+    width:100%;
+    height:300px;
+    border:0;
+    border-radius:8px;
+}
+
+footer {
+    text-align:center;
+    padding:1rem;
+    background:#e1e5ea;
+    font-size:.85rem;
+}
+
+/* Chat buttons */
+.chat-buttons {
+    position:fixed;
+    bottom:20px;
+    right:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:1000;
+}
+
+.chat-btn {
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    text-decoration:none;
+    color:white;
+    box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
+
+.whatsapp { background:#25D366; }
+.messenger { background:#0078FF; }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>FjordSauna</h1>
+    <p>Lei badstue – en varm opplevelse året rundt</p>
+</header>
+
+<main>
+
+<div class="card">
+    <h2>Om badstuen</h2>
+    <p>
+        FjordSauna tilbyr en koselig og avslappende badstueopplevelse.
+        Perfekt for restitusjon og sosial hygge.
+    </p>
+</div>
+
+<div class="card">
+    <h2>Bilder</h2>
+    <div class="gallery">
+        <img src="01.jpg" onclick="openLightbox(0)">
+        <img src="02.jpg" onclick="openLightbox(1)">
+        <img src="03.jpg" onclick="openLightbox(2)">
+    </div>
+</div>
+
+<div class="card">
+    <h2>Åpningstider</h2>
+    <ul>
+        <li>Onsdag og fredag</li>
+        <li>Kl. 18:00 – 23:00</li>
+    </ul>
+    <p>Minimum 1 time per reservasjon.</p>
+</div>
+
+<div class="card">
+    <h2>Priser</h2>
+    <p><strong>500 kr per time</strong> – uavhengig av antall personer</p>
+</div>
+
+<div class="card">
+    <h2>Kapasitet & fasiliteter</h2>
+    <ul>
+        <li>Maks 6 personer (komfortabelt for 4)</li>
+        <li>Omkledning</li>
+        <li>Kald dusj bak badstuen</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>Lokasjon</h2>
+    <iframe src="https://www.google.com/maps?q=Kristiansand%20Norway&output=embed"></iframe>
+</div>
+
+<div class="card">
+    <h2>Bestilling</h2>
+    <p>
+        📧 post@fjordsauna.no<br>
+        📞 99 99 99 99
+    </p>
+</div>
+
+</main>
+
+<footer>
+    © 2026 FjordSauna – Alle rettigheter reservert
+</footer>
+
+<!-- Chat buttons -->
+<div class="chat-buttons">
+    <a class="chat-btn whatsapp"
+       href="https://wa.me/4799999999?text=Hei%20-%20jeg%20ønsker%20å%20reservere%20badstue"
+       target="_blank">🟢</a>
+
+    <a class="chat-btn messenger"
+       href="https://m.me/DITTPAGENAME"
+       target="_blank">🔵</a>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="close" onclick="closeLightbox()">×</span>
+    <span class="nav prev" onclick="changeImage(-1)">‹</span>
+    <img id="lightboxImage">
+    <span class="nav next" onclick="changeImage(1)">›</span>
+</div>
+
+<script>
+const images=["01.jpg","02.jpg","03.jpg"];
+let index=0, slide;
+
+function openLightbox(i){
+    index=i;
+    showImage();
+    document.getElementById("lightbox").style.display="flex";
+    slide=setInterval(()=>changeImage(1),4000);
+}
+
+function closeLightbox(){
+    document.getElementById("lightbox").style.display="none";
+    clearInterval(slide);
+}
+
+function changeImage(step){
+    index=(index+step+images.length)%images.length;
+    showImage();
+    clearInterval(slide);
+    slide=setInterval(()=>changeImage(1),4000);
+}
+
+function showImage(){
+    document.getElementById("lightboxImage").src=images[index];
+}
+
+/* Swipe */
+let startX=0;
+const lb=document.getElementById("lightbox");
+
+lb.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+lb.addEventListener("touchend",e=>{
+    let endX=e.changedTouches[0].clientX;
+    if(startX-endX>50) changeImage(1);
+    if(endX-startX>50) changeImage(-1);
+});
+</script>
+
+</body>
+</html>
