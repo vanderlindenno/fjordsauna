@@ -67,8 +67,13 @@ iframe{
   border-radius:8px;
 }
 
-/* Telefon: kun klickbar på mobil */
-.mobile-phone{display:none;text-decoration:none;color:inherit;font-weight:600}
+/* Telefon – kun klikkbar på mobil */
+.mobile-phone{
+  display:none;
+  text-decoration:none;
+  color:inherit;
+  font-weight:600;
+}
 .desktop-phone{display:inline}
 
 @media(max-width:768px){
@@ -76,7 +81,7 @@ iframe{
   .desktop-phone{display:none}
 }
 
-/* Flytende knapper */
+/* Flytende mobilknapper */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -97,6 +102,7 @@ iframe{
   box-shadow:0 4px 10px rgba(0,0,0,.25);
   color:#fff;
   text-decoration:none;
+  font-size:22px;
 }
 
 .whatsapp{background:#25D366}
@@ -154,7 +160,7 @@ footer{
   <div class="card">
     <h2>Kapasitet & fasiliteter</h2>
     <ul>
-      <li>Maks 6 personer (4 komfortabelt)</li>
+      <li>Maks 6 personer (komfortabelt for 4)</li>
       <li>Omkledning</li>
       <li>Kald dusj</li>
     </ul>
@@ -162,26 +168,22 @@ footer{
 
   <div class="card">
     <h2>Lokasjon</h2>
-
-    <iframe
+    <iframe 
       src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"
-      loading="lazy">
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
     </iframe>
-
-    <p style="margin-top:0.8rem;text-align:center;">
-      <a href="https://www.google.com/maps/search/?api=1&query=Killand+Badstue+Veg%C3%A5rshei"
-         target="_blank" rel="noopener">
-        📍 Åpne i Google Maps
-      </a>
-    </p>
   </div>
 
   <div class="card">
     <h2>Bestilling</h2>
     <p>
-      📞
+      📞 
       <span class="desktop-phone">945 05 716</span>
       <a class="mobile-phone" href="tel:+4794505716">945 05 716</a>
+    </p>
+    <p>
+      <em>Bestillinger tas kun imot via SMS, WhatsApp eller telefon.</em>
     </p>
   </div>
 
@@ -191,14 +193,10 @@ footer{
   © 2026 Killand Badstue
 </footer>
 
-<!-- Mobilsnarveier -->
+<!-- Mobile snarveier -->
 <div class="chat-buttons mobile-only">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">
-    💬
-  </a>
-  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">
-    ✉️
-  </a>
+  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">💬</a>
+  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">✉️</a>
 </div>
 
 </body>
