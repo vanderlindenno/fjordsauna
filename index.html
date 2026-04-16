@@ -99,6 +99,7 @@ iframe {
     border-radius:8px;
 }
 
+/* Footer */
 footer {
     text-align:center;
     padding:1rem;
@@ -136,7 +137,6 @@ footer {
 .whatsapp { background:#25D366; }
 .sms { background:#6c7580; }
 
-/* Alleen mobiel */
 .mobile-only { display:none; }
 @media (max-width:768px) {
     .mobile-only { display:flex; }
@@ -164,9 +164,9 @@ footer {
 <div class="card">
     <h2>Bilder</h2>
     <div class="gallery">
-        <img src="01.jpg" onclick="openLightbox(0)">
-        <img src="02.jpg" onclick="openLightbox(1)">
-        <img src="03.jpg" onclick="openLightbox(2)">
+        <img src="01.jpg" alt="Badstue bilde 1" onclick="openLightbox(0)">
+        <img src="02.jpg" alt="Badstue bilde 2" onclick="openLightbox(1)">
+        <img src="03.jpg" alt="Badstue bilde 3" onclick="openLightbox(2)">
     </div>
 </div>
 
@@ -195,7 +195,11 @@ footer {
 
 <div class="card">
     <h2>Lokasjon</h2>
-    <iframe src="https://maps.google.com/?q=https://maps.app.goo.gl/kRx5GLcPHxsveP6P6&output=embed"></iframe>
+    <iframe
+        src="https://www.google.com/maps?q=FjordSauna@58.1467,8.0058&z=17&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
 </div>
 
 <div class="card">
@@ -216,7 +220,7 @@ footer {
 <div class="chat-buttons mobile-only">
 
     <a class="chat-btn whatsapp"
-       href="https://wa.me/4794505716?text=Hei%20-">
+       href="https://wa.me/4794505716?text=Hei%20-%20jeg%20ønsker%20å%20bestille%20badstue">
         <svg viewBox="0 0 32 32">
             <path fill="white"
             d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.65.87 5.1 2.35 7.07L4 29l7.12-2.28a11.88 11.88 0 005.9 1.53c6.62 0 12.02-5.4 12.02-12.02C29.04 8.4 22.64 3 16.02 3z"/>
@@ -224,7 +228,7 @@ footer {
     </a>
 
     <a class="chat-btn sms"
-       href="sms:+4794505716?body=Hei%20-">
+       href="sms:+4794505716?body=Hei%20-%20jeg%20ønsker%20å%20bestille%20badstue">
         <svg viewBox="0 0 24 24">
             <path fill="white"
             d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/>
@@ -237,7 +241,7 @@ footer {
 <div class="lightbox" id="lightbox">
     <span class="close" onclick="closeLightbox()">×</span>
     <span class="nav prev" onclick="changeImage(-1)">‹</span>
-    <img id="lightboxImage">
+    <img id="lightboxImage" alt="">
     <span class="nav next" onclick="changeImage(1)">›</span>
 </div>
 
@@ -250,7 +254,7 @@ function openLightbox(i){
     index = i;
     showImage();
     document.getElementById("lightbox").style.display = "flex";
-    slide = setInterval(()=>changeImage(1),4000);
+    slide = setInterval(() => changeImage(1), 4000);
 }
 
 function closeLightbox(){
