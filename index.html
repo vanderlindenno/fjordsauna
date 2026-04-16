@@ -42,11 +42,14 @@ main {
     box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
-h2 { color:var(--primary); margin-top:0; }
+h2 {
+    color:var(--primary);
+    margin-top:0;
+}
 
 ul { padding-left:1.2rem; }
 
-/* Gallery thumbnails */
+/* Gallery */
 .gallery {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
@@ -88,6 +91,7 @@ ul { padding-left:1.2rem; }
 .next { right:15px; top:50%; }
 .close { top:15px; right:20px; }
 
+/* Map */
 iframe {
     width:100%;
     height:300px;
@@ -109,25 +113,34 @@ footer {
     right:15px;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:12px;
     z-index:1000;
 }
 
 .chat-btn {
-    width:52px;
-    height:52px;
+    width:54px;
+    height:54px;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:26px;
-    text-decoration:none;
-    color:white;
     box-shadow:0 4px 10px rgba(0,0,0,.25);
+    text-decoration:none;
+}
+
+.chat-btn svg {
+    width:26px;
+    height:26px;
 }
 
 .whatsapp { background:#25D366; }
-.messenger { background:#0078FF; }
+.sms { background:#6c7580; }
+
+/* Alleen mobiel */
+.mobile-only { display:none; }
+@media (max-width:768px) {
+    .mobile-only { display:flex; }
+}
 </style>
 </head>
 
@@ -182,14 +195,14 @@ footer {
 
 <div class="card">
     <h2>Lokasjon</h2>
-    <iframe src="https://www.google.com/maps?q=Kristiansand%20Norway&output=embed"></iframe>
+    <iframe src="https://maps.google.com/?q=https://maps.app.goo.gl/kRx5GLcPHxsveP6P6&output=embed"></iframe>
 </div>
 
 <div class="card">
     <h2>Bestilling</h2>
     <p>
         📧 post@fjordsauna.no<br>
-        📞 99 99 99 99
+        📞 945 05 716
     </p>
 </div>
 
@@ -199,15 +212,25 @@ footer {
     © 2026 FjordSauna – Alle rettigheter reservert
 </footer>
 
-<!-- Chat buttons -->
-<div class="chat-buttons">
-    <a class="chat-btn whatsapp"
-       href="https://wa.me/4799999999?text=Hei%20-%20jeg%20ønsker%20å%20reservere%20badstue"
-       target="_blank">🟢</a>
+<!-- Chat buttons (mobile only) -->
+<div class="chat-buttons mobile-only">
 
-    <a class="chat-btn messenger"
-       href="https://m.me/DITTPAGENAME"
-       target="_blank">🔵</a>
+    <a class="chat-btn whatsapp"
+       href="https://wa.me/4794505716?text=Hei%20-%20jeg%20ønsker%20å%20reservere%20badstue">
+        <svg viewBox="0 0 32 32">
+            <path fill="white"
+            d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.65.87 5.1 2.35 7.07L4 29l7.12-2.28a11.88 11.88 0 005.9 1.53c6.62 0 12.02-5.4 12.02-12.02C29.04 8.4 22.64 3 16.02 3z"/>
+        </svg>
+    </a>
+
+    <a class="chat-btn sms"
+       href="sms:+4794505716?body=Hei%20-%20jeg%20ønsker%20å%20reservere%20badstue">
+        <svg viewBox="0 0 24 24">
+            <path fill="white"
+            d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/>
+        </svg>
+    </a>
+
 </div>
 
 <!-- Lightbox -->
@@ -219,42 +242,30 @@ footer {
 </div>
 
 <script>
-const images=["01.jpg","02.jpg","03.jpg"];
-let index=0, slide;
+const images = ["01.jpg","02.jpg","03.jpg"];
+let index = 0;
+let slide;
 
 function openLightbox(i){
-    index=i;
+    index = i;
     showImage();
-    document.getElementById("lightbox").style.display="flex";
-    slide=setInterval(()=>changeImage(1),4000);
+    document.getElementById("lightbox").style.display = "flex";
+    slide = setInterval(()=>changeImage(1),4000);
 }
 
 function closeLightbox(){
-    document.getElementById("lightbox").style.display="none";
+    document.getElementById("lightbox").style.display = "none";
     clearInterval(slide);
 }
 
 function changeImage(step){
-    index=(index+step+images.length)%images.length;
+    index = (index + step + images.length) % images.length;
     showImage();
-    clearInterval(slide);
-    slide=setInterval(()=>changeImage(1),4000);
 }
 
 function showImage(){
-    document.getElementById("lightboxImage").src=images[index];
+    document.getElementById("lightboxImage").src = images[index];
 }
-
-/* Swipe */
-let startX=0;
-const lb=document.getElementById("lightbox");
-
-lb.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
-lb.addEventListener("touchend",e=>{
-    let endX=e.changedTouches[0].clientX;
-    if(startX-endX>50) changeImage(1);
-    if(endX-startX>50) changeImage(-1);
-});
 </script>
 
 </body>
