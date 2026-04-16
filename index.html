@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Killand Badstue</title>
 
 <style>
@@ -58,33 +58,25 @@ ul{padding-left:1.2rem}
 .gallery img{
   width:100%;
   border-radius:6px;
-  cursor:pointer;
 }
 
 iframe{
   width:100%;
-  height:300px;
+  height:320px;
   border:0;
   border-radius:8px;
 }
 
-footer{
-  text-align:center;
-  padding:1rem;
-  background:#e1e5ea;
-  font-size:.85rem;
-}
-
-/* Telefoon: alleen klikbaar op mobiel */
+/* Telefon: kun klickbar på mobil */
 .mobile-phone{display:none;text-decoration:none;color:inherit;font-weight:600}
 .desktop-phone{display:inline}
 
-@media (max-width:768px){
+@media(max-width:768px){
   .mobile-phone{display:inline}
   .desktop-phone{display:none}
 }
 
-/* Chat knoppen */
+/* Flytende knapper */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -103,6 +95,8 @@ footer{
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
+  color:#fff;
+  text-decoration:none;
 }
 
 .whatsapp{background:#25D366}
@@ -110,6 +104,13 @@ footer{
 
 .mobile-only{display:none}
 @media(max-width:768px){.mobile-only{display:flex}}
+
+footer{
+  text-align:center;
+  padding:1rem;
+  background:#e1e5ea;
+  font-size:.85rem;
+}
 </style>
 </head>
 
@@ -124,7 +125,7 @@ footer{
 
   <div class="card">
     <h2>Om badstuen</h2>
-    <p>Koselig og avslappende badstue – perfekt for restitusjon og sosial hygge.</p>
+    <p>Koselig og avslappende badstue, perfekt for restitusjon og sosial hygge.</p>
   </div>
 
   <div class="card">
@@ -161,17 +162,24 @@ footer{
 
   <div class="card">
     <h2>Lokasjon</h2>
+
     <iframe
-      src="https://www.google.com/maps?q=Vegårshei&output=embed"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
+      src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"
+      loading="lazy">
     </iframe>
+
+    <p style="margin-top:0.8rem;text-align:center;">
+      <a href="https://www.google.com/maps/search/?api=1&query=Killand+Badstue+Veg%C3%A5rshei"
+         target="_blank" rel="noopener">
+        📍 Åpne i Google Maps
+      </a>
+    </p>
   </div>
 
   <div class="card">
     <h2>Bestilling</h2>
     <p>
-      📞 
+      📞
       <span class="desktop-phone">945 05 716</span>
       <a class="mobile-phone" href="tel:+4794505716">945 05 716</a>
     </p>
@@ -183,18 +191,13 @@ footer{
   © 2026 Killand Badstue
 </footer>
 
-<!-- Mobiele actieknoppen -->
+<!-- Mobilsnarveier -->
 <div class="chat-buttons mobile-only">
   <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">
-    <svg viewBox="0 0 32 32" width="26" height="26">
-      <path fill="#fff" d="M16 3C9.4 3 4 8.3 4 14.8c0 2.5.8 4.9 2.2 6.9L4 29l7.4-2.3c2 .9 4.1 1.4 6.3 1.4 6.6 0 12-5.3 12-11.9S22.6 3 16 3z"/>
-    </svg>
+    💬
   </a>
-
   <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">
-    <svg viewBox="0 0 24 24" width="26" height="26">
-      <path fill="#fff" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
-    </svg>
+    ✉️
   </a>
 </div>
 
