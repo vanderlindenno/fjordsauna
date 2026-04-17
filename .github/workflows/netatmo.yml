@@ -1,0 +1,44 @@
+name: Update temperatuur
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # elke 10 minuten
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository ophalen
+        uses: actions/checkout@v4
+
+      - name: Netatmo authenticatie + data ophalen
+        env:
+          CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+          EMAIL: ${{ secrets.NETATMO_EMAIL }}
+          PASSWORD: ${{ secrets.NETATMO_PASSWORD }}
+        run: |
+          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+            -d grant_type=password \
+            -d client_id=$CLIENT_ID \
+            -d client_secret=$CLIENT_SECRET \
+            -d username=$EMAIL \
+            -d password=$PASSWORD \
+            -d scope=read_station | jq -r .access_token)
+
+          TEMP=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $TOKEN" \
+            | jq '.body.devices[0].dashboard_data.Temperature')
+
+          echo "$TEMP" > temperatuur.txt
+
+      - name: Wijziging opslaan
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add temperatuur.txt
+          git commit -m "Update temperatuur" || exit 0
+          git push
+``
