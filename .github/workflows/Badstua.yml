@@ -1,0 +1,73 @@
+name: Badstua get temp (scheduled)
+
+on:
+  # Handmatig starten via GitHub UI
+  workflow_dispatch:
+
+  # Automatisch: elke 5 minuten (UTC)
+  schedule:
+    - cron: "*/5 * * * *"
+
+# Voorkom overlappende runs
+concurrency:
+  group: badstua-update
+  cancel-in-progress: true
+
+# Nodig om te kunnen pushen
+permissions:
+  contents: write
+
+jobs:
+  badstua:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync with main branch
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git pull --rebase origin main
+
+      - name: Hent Badstua data
+        env:
+          CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
+        run: |
+          set -e
+
+          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+            -d grant_type=refresh_token \
+            -d client_id="$CLIENT_ID" \
+            -d client_secret="$CLIENT_SECRET" \
+            -d refresh_token="$REFRESH_TOKEN" \
+            | jq -r .access_token)
+
+          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $TOKEN")
+
+          TEMP=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Temperature')
+          HUM=$(echo "$DATA"  | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Humidity')
+          UPDATED=$(date -Iseconds)
+
+          jq -n \
+            --argjson t "$TEMP" \
+            --argjson h "$HUM" \
+            --arg u "$UPDATED" \
+            '{temperature: $t, humidity: $h, updated: $u}' > badstua.json
+
+      - name: Commit only if changed
+        run: |
+          if ! git diff --quiet; then
+            git add badstua.json
+            git commit -m "Update Badstua data"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
+``
