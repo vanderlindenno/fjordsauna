@@ -1,0 +1,13 @@
+name: Update Badstua Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test trigger
+        run: |
+          echo "Workflow gestart via externe cron"
+          date
