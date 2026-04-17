@@ -1,4 +1,4 @@
-name: Netatmo Badstua
+name: Badstua get temp
 
 on:
   workflow_dispatch:
