@@ -6,13 +6,16 @@
 <title>Killand Badstue</title>
 
 <!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@swiper/swiper-b
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+:root{
   --primary:#2b5d6e;
   --bg:#f5f7fa;
   --card:#ffffff;
 }
 
-*{ box-sizing:border-box }
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -47,67 +50,68 @@ h2{
   color:var(--primary);
 }
 
-/* ===== SWIPER ===== */
-.swiper{
-  width:100%;
+/* ================= NORMAL SWIPER ================= */
+.thumbnail-swiper{
   height:260px;
   border-radius:8px;
+  overflow:hidden;
 }
 
-.swiper-slide img{
+.thumbnail-swiper img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.swiper-pagination-bullet-active{
+.thumbnail-swiper .swiper-pagination-bullet-active{
   background:#fff;
 }
 
-.swiper-button-next,
-.swiper-button-prev{
-  color:#fff;
-}
-
-/* ===== FULLSCREEN (MOBIL) ===== */
-.swiper.fullscreen{
+/* ================= FULLSCREEN OVERLAY ================= */
+.fullscreen-overlay{
   position:fixed;
   inset:0;
-  width:100vw;
-  height:100vh;
-  z-index:9999;
   background:#000;
-  border-radius:0;
+  z-index:10000;
+  display:none;
 }
 
-.swiper.fullscreen .swiper-slide img{
+.fullscreen-overlay.active{
+  display:block;
+}
+
+.fullscreen-swiper{
+  height:100vh;
+}
+
+.fullscreen-swiper img{
+  width:100%;
+  height:100%;
   object-fit:contain;
 }
 
-/* Skjul piler på mobil */
-@media(max-width:768px){
-  .swiper-button-next,
-  .swiper-button-prev{
-    display:none;
-  }
-}
-
-/* Lukkeknapp */
-.fullscreen-close{
-  position:fixed;
+/* Close button */
+.fs-close{
+  position:absolute;
   top:16px;
   right:16px;
   width:44px;
   height:44px;
   border-radius:50%;
+  border:none;
   background:rgba(0,0,0,.6);
   color:#fff;
   font-size:26px;
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:10000;
   cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  padding:1rem;
+  color:#777;
 }
 </style>
 </head>
@@ -129,18 +133,22 @@ h2{
   <div class="card">
     <h2>Bilder</h2>
 
-    <div class="swiper saunaSwiper">
+    <!-- NORMALE FOTO’S IN DE PAGINA -->
+    <div class="swiper thumbnail-swiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img src="01.jpg" alt="Badstue 1iv class="swiper-slide">
-          <img src="02.jpg" alt="Bad    <div class="swiper-slide">
-          <img src="03.jpg"div>
+          <img src="01.jpg" alt="Badstue 1">
+        </div>
+        <div class="swiper-slide">
+          <img src="02.jpg" alt="Badstue 2">
+        </div>
+        <div class="swiper-slide">
+          <img src="03.jpg" alt="Badstue 3">
+        </div>
       </div>
-
       <div class="swiper-pagination"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
     </div>
+
   </div>
 
   <div class="card">
@@ -150,56 +158,54 @@ h2{
 
 </main>
 
-<footer style="text-align:center;padding:1rem;color:#777">
+<footer>
   © 2026 Killand Badstue
 </footer>
 
+<!-- ================= FULLSCREEN GALLERY (ISOLERT) ================= -->
+<div id="fullscreenGallery" class="fullscreen-overlay">
+  <div class="swiper fullscreen-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="01.jpg"></div>
+      <div class="swiper-slide"><img src="02.jpg"></div>
+      <div class="swiper-slide"><img src="03.jpg"></div>
+    </div>
+  </div>
+  <button class="fs-close">✕</button>
+</div>
+
 <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/@swiper/swiper-bundle.min
-const swiper = new Swiper('.saunaSwiper', {
-  loop:true,
-  autoplay:{
-    delay:4000,
-    disableOnInteraction:false
-  },
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+/* Normale swiper in de pagina */
+const thumbs = new Swiper('.thumbnail-swiper', {
   pagination:{
     el:'.swiper-pagination',
     clickable:true
-  },
-  navigation:{
-    nextEl:'.swiper-button-next',
-    prevEl:'.swiper-button-prev'
   }
 });
 
-const swiperEl = document.querySelector('.saunaSwiper');
-let closeBtn = null;
+/* Fullscreen swiper */
+const fullscreenSwiper = new Swiper('.fullscreen-swiper', {
+  loop:true
+});
 
-function openFullscreen(){
+const overlay = document.getElementById('fullscreenGallery');
+const closeBtn = document.querySelector('.fs-close');
+
+/* Open fullscreen alleen op mobiel */
+document.querySelector('.thumbnail-swiper').addEventListener('click', () => {
   if(window.innerWidth > 768) return;
+  overlay.classList.add('active');
+});
 
-  swiper.autoplay.stop();
-  swiperEl.classList.add('fullscreen');
-
-  closeBtn = document.createElement('div');
-  closeBtn.className = 'fullscreen-close';
-  closeBtn.innerHTML = '✕';
-  document.body.appendChild(closeBtn);
-
-  closeBtn.addEventListener('click', closeFullscreen);
-}
-
-function closeFullscreen(){
-  swiperEl.classList.remove('fullscreen');
-  swiper.autoplay.start();
-  if(closeBtn){
-    closeBtn.remove();
-    closeBtn = null;
-  }
-}
-
-swiperEl.addEventListener('click', openFullscreen);
+/* Sluiten */
+closeBtn.addEventListener('click', () => {
+  overlay.classList.remove('active');
+});
 </script>
 
 </body>
 </html>
+``
