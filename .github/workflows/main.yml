@@ -3,7 +3,7 @@ name: Netatmo Badstua
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *"   # elke 5 minuten (UTC)
 
 jobs:
   badstua:
@@ -13,29 +13,42 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Haal Badstua temperatuur en luchtvochtigheid op
+      - name: Hent Badstua temperatur og luftfuktighet
         env:
           CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token -d grant_type=refresh_token -d client_id="$CLIENT_ID" -d client_secret="$CLIENT_SECRET" -d refresh_token="$REFRESH_TOKEN" | jq -r ".access_token")
+          echo "Cron run at $(date -u)"
 
-          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata -H "Authorization: Bearer $TOKEN")
+          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+            -d grant_type=refresh_token \
+            -d client_id="$CLIENT_ID" \
+            -d client_secret="$CLIENT_SECRET" \
+            -d refresh_token="$REFRESH_TOKEN" \
+            | jq -r ".access_token")
 
-          TEMP=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Temperature")
-          HUM=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Humidity")
+          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $TOKEN")
+
+          TEMP=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Temperature')
+          HUM=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Humidity')
 
           UPDATED=$(date -Iseconds)
 
           echo "{ \"temperature\": $TEMP, \"humidity\": $HUM, \"updated\": \"$UPDATED\" }" > badstua.json
 
-      - name: Commit en push resultaat
+      - name: Commit og push (kun ved endring)
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          git pull --rebase origin main
-          git add badstua.json
-          git commit -m "Update Badstua data" || echo "Geen wijziging"
-          git push
+          # bare commit hvis filen faktisk er endret
+          if ! git diff --quiet; then
+            git add badstua.json
+            git commit -m "Update Badstua data"
+            git push
+          else
+            echo "Ingen endring – ingen commit"
+          fi
+``
