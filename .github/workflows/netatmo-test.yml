@@ -1,76 +1,38 @@
-
- - name: Commit en push temperatuur
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git add temperatuur.txt
-          git commit -m "Update Badstua temperatuur" || echo "Geen wijziging"
-
-          git pull --rebase origin main
-          git push
-
-
-name: Netatmo Badstua temperatuur
+name: Netatmo devices overzicht
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/10 * * * *"   # elke 10 minuten
 
 jobs:
-  netatmo:
+  inspect:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Haal Netatmo Badstua temperatuur op
+      - name: Toon alle Netatmo devices en modules
         env:
           CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          echo "Access token ophalen..."
-
           TOKEN_RESPONSE=$(curl -s https://api.netatmo.com/oauth2/token \
             -d grant_type=refresh_token \
             -d client_id="$CLIENT_ID" \
             -d client_secret="$CLIENT_SECRET" \
             -d refresh_token="$REFRESH_TOKEN")
 
-          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
-          if [ -z "$ACCESS_TOKEN" ]; then
-            echo "Geen access token ontvangen"
-            exit 1
-          fi
-
-          echo "Station data ophalen..."
+          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token')
 
           STATION_RESPONSE=$(curl -s https://api.netatmo.com/api/getstationsdata \
             -H "Authorization: Bearer $ACCESS_TOKEN")
 
-          echo "Badstua temperatuur zoeken..."
+          echo "=== STATIONS ==="
+          echo "$STATION_RESPONSE" | jq -r '.body.devices[].station_name'
 
-          TEMPERATURE=$(echo "$STATION_RESPONSE" | jq -r '
-            .body.devices[0].modules[]
-            | select(.module_name == "Badstua")
-            | .dashboard_data.Temperature
-          ')
+          echo "=== MODULES ==="
+          echo "$STATION_RESPONSE" | jq -r '.body.devices[].modules[].module_name'
 
-          if [ -z "$TEMPERATURE" ]; then
-            echo "Badstua module niet gevonden of geen temperatuur"
-            exit 1
-          fi
-
-          echo "🌡️ Badstua temperatuur: $TEMPERATURE °C"
-          echo "$TEMPERATURE" > temperatuur.txt
-
-      - name: Commit en push temperatuur
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add temperatuur.txt
-          git commit -m "Update Badstua temperatuur" || echo "Geen wijziging"
-          git push
+          echo "=== MODULE + TEMPERATUUR ==="
+          echo "$STATION_RESPONSE" | jq -r '
+            .body.devices[].modules[]
+            | "\(.module_name): \(.dashboard_data.Temperature) °C"
+          '
