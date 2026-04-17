@@ -10,7 +10,9 @@
   --primary:#2b5d6e;
   --bg:#f5f7fa;
   --card:#ffffff;
-  --accent:#d35400;
+  --cold:#3498db;
+  --warm:#e67e22;
+  --hot:#c0392b;
 }
 
 *{box-sizing:border-box}
@@ -26,7 +28,7 @@ header{
   background:var(--primary);
   color:#fff;
   text-align:center;
-  padding:2.2rem 1rem;
+  padding:2.4rem 1rem;
 }
 
 main{
@@ -37,10 +39,10 @@ main{
 
 .card{
   background:var(--card);
-  border-radius:8px;
+  border-radius:10px;
   padding:1.4rem;
-  margin-bottom:1rem;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  margin-bottom:1.2rem;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
 h2{
@@ -48,70 +50,37 @@ h2{
   margin-top:0;
 }
 
+/* BADSTUEKLIMA */
+.badstua-card{
+  border-left:6px solid var(--warm);
+}
+
 .badstua-status{
-  font-size:1.15rem;
-  font-weight:600;
+  font-size:1.25rem;
+  font-weight:700;
+  margin-bottom:.4rem;
 }
 
 .badstua-meta{
   font-size:.9rem;
   color:#666;
+  margin-bottom:.3rem;
 }
 
-ul{padding-left:1.2rem}
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-  gap:10px;
-}
-
-.gallery img{
-  width:100%;
+.badstua-countdown{
+  background:#f0f3f6;
   border-radius:6px;
+  padding:.5rem .7rem;
+  font-weight:600;
+  font-size:.9rem;
+  display:inline-block;
 }
 
-iframe{
-  width:100%;
-  height:320px;
-  border:0;
-  border-radius:8px;
+.badstua-ready{
+  margin-top:.5rem;
+  font-weight:700;
+  color:var(--hot);
 }
-
-/* Telefon */
-.mobile-phone{display:none}
-.desktop-phone{display:inline}
-@media(max-width:768px){
-  .mobile-phone{display:inline}
-  .desktop-phone{display:none}
-}
-
-/* Flytende mobilknapper */
-.chat-buttons{
-  position:fixed;
-  bottom:20px;
-  right:15px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  z-index:1000;
-}
-
-.chat-btn{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 4px 10px rgba(0,0,0,.25);
-  color:#fff;
-  text-decoration:none;
-  font-size:22px;
-}
-
-.whatsapp{background:#25D366}
-.sms{background:#6c7580}
 
 footer{
   text-align:center;
@@ -134,33 +103,24 @@ footer{
   <!-- OM BADSTUEN -->
   <div class="card">
     <h2>Om badstuen</h2>
-    <p>Koselig og avslappende badstue, perfekt for restitusjon og sosial hygge.</p>
+    <p>
+      En koselig og avslappende badstue, perfekt for restitusjon,
+      velvære og sosial hygge året rundt.
+    </p>
   </div>
 
   <!-- BADSTUEKLIMA -->
-  <div class="card">
+  <div class="card badstua-card">
     <h2>🌡️ Badstueklima</h2>
-    <div id="badstua-status" class="badstua-status">Henter sanntidsdata…</div>
-    <div id="badstua-updated" class="badstua-meta"></div>
-    <div id="badstua-countdown" class="badstua-meta"></div>
-  </div>
 
-  <div class="card">
-    <h2>Bilder</h2>
-    <div class="gallery">
-      <img src="01.jpg" alt="Badstue bilde 1">
-      <img src="02.jpg" alt="Badstue bilde 2">
-      <img src="03.jpg" alt="Badstue bilde 3">
+    <div id="badstua-status" class="badstua-status">
+      Henter sanntidsdata…
     </div>
-  </div>
 
-  <div class="card">
-    <h2>Åpningstider</h2>
-    <ul>
-      <li>Onsdag og fredag</li>
-      <li>Kl. 18:00 – 23:00</li>
-      <li>Etter avtale</li>
-    </ul>
+    <div id="badstua-ready" class="badstua-ready"></div>
+
+    <div id="badstua-updated" class="badstua-meta"></div>
+    <div id="badstua-countdown" class="badstua-countdown"></div>
   </div>
 
   <div class="card">
@@ -168,59 +128,99 @@ footer{
     <p><strong>500 kr per time</strong> – uavhengig av antall personer</p>
   </div>
 
-  <div class="card">
-    <h2>Lokasjon</h2>
-    <iframe src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"></iframe>
-  </div>
-
-  <div class="card">
-    <h2>Bestilling</h2>
-    <p>📞 <span class="desktop-phone">945 05 716</span>
-    <a class="mobile-phone" href="tel:+4794505716">945 05 716</a></p>
-  </div>
-
 </main>
 
-<footer>© 2026 Killand Badstue</footer>
-
-<div class="chat-buttons">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716">💬</a>
-  <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
-</div>
+<footer>
+  © 2026 Killand Badstue
+</footer>
 
 <script>
 const REFRESH_MINUTES = 5;
-let countdownInterval;
+let countdownInterval = null;
+let nextUpdateTime = null;
 
-function oppdaterBadstua() {
+function formatNO(date){
+  return date.toLocaleString('no-NO');
+}
+
+function temperaturFarge(temp){
+  if (temp >= 70) return 'var(--hot)';
+  if (temp >= 40) return 'var(--warm)';
+  return 'var(--cold)';
+}
+
+function startCountdown(){
+  if (countdownInterval) clearInterval(countdownInterval);
+
+  countdownInterval = setInterval(() => {
+    const now = new Date();
+    const diff = nextUpdateTime - now;
+
+    if (diff <= 0){
+      document.getElementById('badstua-countdown').innerText =
+        '🔄 Oppdaterer…';
+      return;
+    }
+
+    const total = Math.floor(diff / 1000);
+    const min = String(Math.floor(total / 60)).padStart(2,'0');
+    const sec = String(total % 60).padStart(2,'0');
+
+    document.getElementById('badstua-countdown').innerText =
+      `⏳ Neste oppdatering om ${min}:${sec}`;
+  }, 1000);
+}
+
+function oppdaterBadstua(){
   fetch('badstua.json')
     .then(r => r.json())
     .then(d => {
-      const temp = d.temperature.toFixed(1).replace('.', ',');
+      const tempNum = d.temperature;
+      const temp = tempNum.toFixed(1).replace('.', ',');
       const hum = d.humidity;
+
       const updated = new Date(d.updated);
-      const next = new Date(updated.getTime() + REFRESH_MINUTES*60000);
+      nextUpdateTime = new Date(
+        updated.getTime() + REFRESH_MINUTES * 60000
+      );
+
+      const color = temperaturFarge(tempNum);
+      document.querySelector('.badstua-card').style.borderLeftColor = color;
 
       document.getElementById('badstua-status').innerHTML =
-        `🔥 I badstuen er det nå <strong>${temp} °C</strong> med <strong>${hum} %</strong> luftfuktighet.`;
+        `🔥 I badstuen er det nå 
+         <span style="color:${color}">${temp} °C</span>
+         med <strong>${hum} %</strong> luftfuktighet.`;
 
       document.getElementById('badstua-updated').innerText =
-        `Sist oppdatert: ${updated.toLocaleString('no-NO')}`;
+        `📅 Sist oppdatert: ${formatNO(updated)}`;
 
-      clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        const diff = Math.max(0, next - new Date());
-        const m = String(Math.floor(diff/60000)).padStart(2,'0');
-        const s = String(Math.floor(diff/1000%60)).padStart(2,'0');
-        document.getElementById('badstua-countdown').innerText =
-          `⏳ Neste oppdatering om ${m}:${s}`;
-      }, 1000);
+      if (tempNum >= 70){
+        document.getElementById('badstua-ready').innerText =
+          '✅ Badstuen er klar 🔥';
+      } else {
+        document.getElementById('badstua-ready').innerText = '';
+      }
+
+      startCountdown();
+    })
+    .catch(() => {
+      document.getElementById('badstua-status').innerText =
+        '⚠️ Kunne ikke hente badstuedata.';
+      document.getElementById('badstua-ready').innerText = '';
+      document.getElementById('badstua-updated').innerText = '';
+      document.getElementById('badstua-countdown').innerText = '';
+      if (countdownInterval) clearInterval(countdownInterval);
     });
 }
 
+// første last
 oppdaterBadstua();
-setInterval(oppdaterBadstua, REFRESH_MINUTES*60000);
+
+// ny henting hver 5. minutt
+setInterval(oppdaterBadstua, REFRESH_MINUTES * 60000);
 </script>
 
 </body>
 </html>
+``
