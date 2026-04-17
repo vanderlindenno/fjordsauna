@@ -1,19 +1,14 @@
 name: Badstua get temp
 
 on:
-  # Handmatig starten (optioneel, maar handig)
   workflow_dispatch:
-
-  # Automatisch: elke 5 minuten (UTC)
   schedule:
     - cron: "*/5 * * * *"
 
-# Voorkom overlappende runs
 concurrency:
   group: badstua-update
   cancel-in-progress: true
 
-# Nodig om te kunnen pushen naar de repo
 permissions:
   contents: write
 
@@ -25,7 +20,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # nodig voor pull --rebase
+          fetch-depth: 0
+
+      - name: Sync with main branch
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git pull --rebase origin main
 
       - name: Hent Badstua data
         env:
@@ -57,15 +58,10 @@ jobs:
 
       - name: Commit only if changed
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          # Altijd eerst synchroniseren
-          git pull --rebase origin main
-
-          # Alleen committen als er écht iets gewijzigd is
           if ! git diff --quiet; then
             git add badstua.json
             git commit -m "Update Badstua data"
             git push origin main
           else
+            echo "No changes to commit"
+          fi
