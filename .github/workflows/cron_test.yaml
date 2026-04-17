@@ -1,13 +1,10 @@
-name: Cron Test
+name: Update Badstua Data
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/5 * * * *"
 
 jobs:
-  test:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - name: Print time
-        run: date
+      - run: date
