@@ -1,9 +1,12 @@
 name: Badstua get temp
 
 
+
 on:
+  workflow_dispatch:
   schedule:
     - cron: "*/5 * * * *"
+
 
 concurrency:
   group: badstua-update
