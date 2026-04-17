@@ -32,15 +32,20 @@ jobs:
           TEMP=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Temperature")
           HUM=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Humidity")
 
-          TIMESTAMP=$(date -Iseconds)
+          UPDATED=$(date -Iseconds)
 
-          echo "{ \"temperature\": $TEMP, \"humidity\": $HUM, \"updated\": \"$TIMESTAMP\" }" > badstua.json
+          echo "{ \"temperature\": $TEMP, \"humidity\": $HUM, \"updated\": \"$UPDATED\" }" > badstua.json
 
       - name: Commit en push bestand
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add badstua.json
+
+          # eerst syncen met remote
           git pull --rebase origin main
+
+          # daarna committen
+          git add badstua.json
           git commit -m "Update Badstua data" || echo "Geen wijziging"
           git push
+``
