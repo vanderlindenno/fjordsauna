@@ -5,20 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Killand Badstue</title>
 
-<style>
-:root{
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@swiper/swiper-b
   --primary:#2b5d6e;
   --bg:#f5f7fa;
   --card:#ffffff;
-
-  --temp-cold:#3498db;
-  --temp-warm:#e67e22;
-  --temp-hot:#c0392b;
-
-  --humidity:#27ae60;
 }
 
-*{box-sizing:border-box}
+*{ box-sizing:border-box }
 
 body{
   margin:0;
@@ -31,7 +25,7 @@ header{
   background:var(--primary);
   color:#fff;
   text-align:center;
-  padding:2.2rem 1rem;
+  padding:2rem 1rem;
 }
 
 main{
@@ -49,81 +43,71 @@ main{
 }
 
 h2{
-  color:var(--primary);
   margin-top:0;
+  color:var(--primary);
 }
 
-ul{padding-left:1.2rem}
-
-/* GALLERI */
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-  gap:10px;
-}
-.gallery img{
+/* ===== SWIPER ===== */
+.swiper{
   width:100%;
-  border-radius:6px;
-}
-
-/* KART */
-iframe{
-  width:100%;
-  height:320px;
-  border:0;
+  height:260px;
   border-radius:8px;
 }
 
-/* TELEFON */
-.mobile-phone{display:none}
-.desktop-phone{display:inline}
-@media(max-width:768px){
-  .mobile-phone{display:inline}
-  .desktop-phone{display:none}
+.swiper-slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-/* FLYTENDE KNAPPER */
-.chat-buttons{
+.swiper-pagination-bullet-active{
+  background:#fff;
+}
+
+.swiper-button-next,
+.swiper-button-prev{
+  color:#fff;
+}
+
+/* ===== FULLSCREEN (MOBIL) ===== */
+.swiper.fullscreen{
   position:fixed;
-  bottom:20px;
-  right:15px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  z-index:1000;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  z-index:9999;
+  background:#000;
+  border-radius:0;
 }
 
-.chat-btn{
-  width:54px;
-  height:54px;
+.swiper.fullscreen .swiper-slide img{
+  object-fit:contain;
+}
+
+/* Skjul piler på mobil */
+@media(max-width:768px){
+  .swiper-button-next,
+  .swiper-button-prev{
+    display:none;
+  }
+}
+
+/* Lukkeknapp */
+.fullscreen-close{
+  position:fixed;
+  top:16px;
+  right:16px;
+  width:44px;
+  height:44px;
   border-radius:50%;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  font-size:26px;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 4px 10px rgba(0,0,0,.25);
-  color:#fff;
-  text-decoration:none;
-  font-size:22px;
-}
-.whatsapp{background:#25D366}
-.sms{background:#6c7580}
-
-/* BADSTUEKLIMA */
-.badstua-status{
-  font-size:1.2rem;
-  font-weight:700;
-}
-
-.badstua-meta{
-  margin-top:.4rem;
-  font-size:.9rem;
-  color:#555;
-}
-
-.badstua-ready{
-  margin-top:.4rem;
-  font-weight:700;
-  color:var(--temp-hot);
+  z-index:10000;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -137,123 +121,84 @@ iframe{
 
 <main>
 
-  <!-- OM BADSTUEN -->
   <div class="card">
     <h2>Om badstuen</h2>
-    <p>
-      Koselig og avslappende badstue, perfekt for restitusjon,
-      velvære og sosial hygge.
-    </p>
+    <p>Koselig og avslappende badstue, perfekt for restitusjon og velvære.</p>
   </div>
 
-  <!-- BADSTUEKLIMA -->
-  <div class="card">
-    <h2>🌡️ Badstueklima</h2>
-
-    <div id="badstua-status" class="badstua-status">
-      Henter sanntidsdata…
-    </div>
-
-    <div id="badstua-updated" class="badstua-meta"></div>
-    <div id="badstua-ready" class="badstua-ready"></div>
-  </div>
-
-  <!-- BILDER -->
   <div class="card">
     <h2>Bilder</h2>
-    <div class="gallery">
-      <img src="01.jpg" alt="Badstue bilde 1">
-      <img src="02.jpg" alt="Badstue bilde 2">
-      <img src="03.jpg" alt="Badstue bilde 3">
+
+    <div class="swiper saunaSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="01.jpg" alt="Badstue 1iv class="swiper-slide">
+          <img src="02.jpg" alt="Bad    <div class="swiper-slide">
+          <img src="03.jpg"div>
+      </div>
+
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
   </div>
 
-  <!-- ÅPNINGSTIDER -->
-  <div class="card">
-    <h2>Åpningstider</h2>
-    <ul>
-      <li>Onsdag og fredag</li>
-      <li>Kl. 18:00 – 23:00</li>
-      <li>Etter avtale</li>
-    </ul>
-  </div>
-
-  <!-- PRIS -->
   <div class="card">
     <h2>Priser</h2>
     <p><strong>500 kr per time</strong> – uavhengig av antall personer</p>
   </div>
 
-  <!-- LOKASJON -->
-  <div class="card">
-    <h2>Lokasjon</h2>
-    <iframe
-      src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"
-      loading="lazy">
-    </iframe>
-  </div>
-
-  <!-- BESTILLING -->
-  <div class="card">
-    <h2>Bestilling</h2>
-    <p>
-      📞 <span class="desktop-phone">945 05 716</span>
-      <a class="mobile-phone" href="tel:+4794505716">945 05 716</a>
-    </p>
-    <p><em>Bestillinger tas via SMS, WhatsApp eller telefon.</em></p>
-  </div>
-
 </main>
 
-<footer>
+<footer style="text-align:center;padding:1rem;color:#777">
   © 2026 Killand Badstue
 </footer>
 
-<div class="chat-buttons">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">💬</a>
-  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">✉️</a>
-</div>
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/@swiper/swiper-bundle.min
+const swiper = new Swiper('.saunaSwiper', {
+  loop:true,
+  autoplay:{
+    delay:4000,
+    disableOnInteraction:false
+  },
+  pagination:{
+    el:'.swiper-pagination',
+    clickable:true
+  },
+  navigation:{
+    nextEl:'.swiper-button-next',
+    prevEl:'.swiper-button-prev'
+  }
+});
 
-<script>
-const REFRESH_MINUTES = 5;
+const swiperEl = document.querySelector('.saunaSwiper');
+let closeBtn = null;
 
-function oppdaterBadstua(){
-  fetch('badstua.json')
-    .then(r => r.json())
-    .then(d => {
-      const tempNum = d.temperature;
-      const temp = tempNum.toFixed(1).replace('.', ',');
-      const hum = d.humidity;
-      const updated = new Date(d.updated);
+function openFullscreen(){
+  if(window.innerWidth > 768) return;
 
-      let tempColor = 'var(--temp-cold)';
-      if (tempNum >= 70) tempColor = 'var(--temp-hot)';
-      else if (tempNum >= 40) tempColor = 'var(--temp-warm)';
+  swiper.autoplay.stop();
+  swiperEl.classList.add('fullscreen');
 
-      document.getElementById('badstua-status').innerHTML =
-        `🔥 I badstuen er det nå 
-         <span style="color:${tempColor}">${temp} °C</span> 
-         med <span style="color:var(--humidity)">${hum} %</span> luftfuktighet.`;
+  closeBtn = document.createElement('div');
+  closeBtn.className = 'fullscreen-close';
+  closeBtn.innerHTML = '✕';
+  document.body.appendChild(closeBtn);
 
-      document.getElementById('badstua-updated').innerText =
-        `Sist oppdatert: ${updated.toLocaleString('no-NO')} (neste oppdatering om ${REFRESH_MINUTES} min)`;
-
-      document.getElementById('badstua-ready').innerText =
-        tempNum >= 70 ? '✅ Badstuen er klar 🔥' : '';
-    })
-    .catch(() => {
-      document.getElementById('badstua-status').innerText =
-        '⚠️ Kunne ikke hente badstuedata.';
-      document.getElementById('badstua-updated').innerText = '';
-      document.getElementById('badstua-ready').innerText = '';
-    });
+  closeBtn.addEventListener('click', closeFullscreen);
 }
 
-// første last
-oppdaterBadstua();
+function closeFullscreen(){
+  swiperEl.classList.remove('fullscreen');
+  swiper.autoplay.start();
+  if(closeBtn){
+    closeBtn.remove();
+    closeBtn = null;
+  }
+}
 
-// ny data hvert 5. minutt
-setInterval(oppdaterBadstua, REFRESH_MINUTES * 60000);
+swiperEl.addEventListener('click', openFullscreen);
 </script>
 
 </body>
