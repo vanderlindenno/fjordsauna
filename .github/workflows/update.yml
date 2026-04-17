@@ -3,10 +3,61 @@ name: Update Badstua Data
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
-          echo "Workflow triggered via API"
-          date
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Hent data fra Netatmo
+        env:
+          CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
+        run: |
+          set -e
+
+          echo "🔐 Henter access token..."
+          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+            -d grant_type=refresh_token \
+            -d client_id="$CLIENT_ID" \
+            -d client_secret="$CLIENT_SECRET" \
+            -d refresh_token="$REFRESH_TOKEN" \
+            | jq -r .access_token)
+
+          echo "📡 Henter sensordata..."
+          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $TOKEN")
+
+          TEMP=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Temperature')
+          HUM=$(echo "$DATA"  | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Humidity')
+          UPDATED=$(date -Iseconds)
+
+          echo "🌡️ Temperatur: $TEMP °C"
+          echo "💧 Luftfuktighet: $HUM %"
+
+          jq -n \
+            --argjson t "$TEMP" \
+            --argjson h "$HUM" \
+            --arg u "$UPDATED" \
+            '{temperature: $t, humidity: $h, updated: $u}' > badstua.json
+
+      - name: Commit only if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          if ! git diff --quiet; then
+            git add badstua.json
+            git commit -m "Update Badstua data"
+            git push
+          else
+            echo "ℹ️ Ingen endring i data – ingen commit"
+          fi
