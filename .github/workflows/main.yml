@@ -3,7 +3,7 @@ name: Netatmo Badstua
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"   # elke 5 minuten
+    - cron: "*/5 * * * *"
 
 jobs:
   badstua:
@@ -19,15 +19,9 @@ jobs:
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
-            -d grant_type=refresh_token \
-            -d client_id="$CLIENT_ID" \
-            -d client_secret="$CLIENT_SECRET" \
-            -d refresh_token="$REFRESH_TOKEN" \
-            | jq -r ".access_token")
+          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token -d grant_type=refresh_token -d client_id="$CLIENT_ID" -d client_secret="$CLIENT_SECRET" -d refresh_token="$REFRESH_TOKEN" | jq -r ".access_token")
 
-          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata \
-            -H "Authorization: Bearer $TOKEN")
+          DATA=$(curl -s https://api.netatmo.com/api/getstationsdata -H "Authorization: Bearer $TOKEN")
 
           TEMP=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Temperature")
           HUM=$(echo "$DATA" | jq -r ".body.devices[].modules[] | select(.module_name==\"Badstua\") | .dashboard_data.Humidity")
@@ -36,16 +30,12 @@ jobs:
 
           echo "{ \"temperature\": $TEMP, \"humidity\": $HUM, \"updated\": \"$UPDATED\" }" > badstua.json
 
-      - name: Commit en push bestand
+      - name: Commit en push resultaat
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          # eerst syncen met remote
           git pull --rebase origin main
-
-          # daarna committen
           git add badstua.json
           git commit -m "Update Badstua data" || echo "Geen wijziging"
           git push
-``
