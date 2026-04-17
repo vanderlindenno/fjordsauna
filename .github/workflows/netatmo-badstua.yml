@@ -2,8 +2,6 @@ name: Netatmo Badstua
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/10 * * * *"
 
 jobs:
   badstua:
@@ -39,16 +37,3 @@ jobs:
             .body.devices[].modules[]
             | select(.module_name=="Badstua")
             | .dashboard_data.Humidity
-          ')
-
-          echo "{ \"temperature\": $TEMP, \"humidity\": $HUM }" > badstua.json
-
-      - name: Commit en push
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add badstua.json
-          git pull --rebase origin main
-          git commit -m "Update Badstua data" || echo "Geen wijziging"
-          git push
-``
