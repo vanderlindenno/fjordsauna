@@ -1,11 +1,44 @@
-name: Netatmo test
+name: Netatmo temperatuur
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  netatmo:
     runs-on: ubuntu-latest
     steps:
-      - name: Test stap
-        run: echo "✅ Workflow werkt"
+      - name: Haal Netatmo temperatuur op
+        env:
+          CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
+        run: |
+          echo "Access token ophalen…"
+
+          TOKEN_RESPONSE=$(curl -s https://api.netatmo.com/oauth2/token \
+            -d grant_type=refresh_token \
+            -d client_id="$CLIENT_ID" \
+            -d client_secret="$CLIENT_SECRET" \
+            -d refresh_token="$REFRESH_TOKEN")
+
+          echo "Token response:"
+          echo "$TOKEN_RESPONSE"
+
+          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
+
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "❌ Geen access token"
+            exit 1
+          fi
+
+          echo "Station data ophalen…"
+
+          STATION_RESPONSE=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $ACCESS_TOKEN")
+
+          echo "Station response:"
+          echo "$STATION_RESPONSE"
+
+          TEMPERATURE=$(echo "$STATION_RESPONSE" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
+
+          echo "🌡️ Temperatuur = $TEMPERATURE °C"
