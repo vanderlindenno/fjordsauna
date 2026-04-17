@@ -10,23 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Haal Netatmo temperatuur op
         env:
           CLIENT_ID: ${{ secrets.NETATMO_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
-          EMAIL: ${{ secrets.NETATMO_EMAIL }}
-          PASSWORD: ${{ secrets.NETATMO_PASSWORD }}
+          REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
           TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
-            -d grant_type=password \
+            -d grant_type=refresh_token \
             -d client_id="$CLIENT_ID" \
             -d client_secret="$CLIENT_SECRET" \
-            -d username="$EMAIL" \
-            -d password="$PASSWORD" \
-            -d scope=read_station | jq -r '.access_token')
+            -d refresh_token="$REFRESH_TOKEN" \
+            | jq -r '.access_token')
 
           JSON=$(curl -s https://api.netatmo.com/api/getstationsdata \
             -H "Authorization: Bearer $TOKEN")
@@ -34,7 +31,7 @@ jobs:
           TEMP=$(echo "$JSON" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
 
           if [ -z "$TEMP" ]; then
-            echo "Geen temperatuur gevonden, workflow stopt netjes."
+            echo "Geen temperatuur gevonden"
             exit 0
           fi
 
@@ -45,5 +42,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add temperatuur.txt
-          git commit -m "Update temperatuur" || echo "Geen wijzigingen"
+          git commit -m "Update temperatuur" || echo "Geen wijziging"
           git push
