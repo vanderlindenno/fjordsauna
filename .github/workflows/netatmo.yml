@@ -19,30 +19,36 @@ jobs:
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          echo "🔐 Token ophalen..."
-          RESPONSE=$(curl -s https://api.netatmo.com/oauth2/token \
+          echo "🔐 Access token ophalen…"
+
+          RAW_TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
             -d grant_type=refresh_token \
             -d client_id="$CLIENT_ID" \
             -d client_secret="$CLIENT_SECRET" \
             -d refresh_token="$REFRESH_TOKEN")
 
-          TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
+          echo "Token response:"
+          echo "$RAW_TOKEN"
+
+          TOKEN=$(echo "$RAW_TOKEN" | jq -r '.access_token // empty')
 
           if [ -z "$TOKEN" ]; then
-            echo "❌ Geen access_token gekregen:"
-            echo "$RESPONSE"
+            echo "❌ Geen access_token ontvangen – stoppen zonder crash."
             exit 0
           fi
 
-          echo "🌡️ Station data ophalen..."
-          STATION=$(curl -s https://api.netatmo.com/api/getstationsdata \
+          echo "🌡️ Station data ophalen…"
+
+          RAW_STATION=$(curl -s https://api.netatmo.com/api/getstationsdata \
             -H "Authorization: Bearer $TOKEN")
 
-          TEMP=$(echo "$STATION" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
+          echo "Station response:"
+          echo "$RAW_STATION"
+
+          TEMP=$(echo "$RAW_STATION" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
 
           if [ -z "$TEMP" ]; then
-            echo "❌ Geen temperatuur gevonden:"
-            echo "$STATION"
+            echo "❌ Geen temperatuur gevonden – stoppen zonder crash."
             exit 0
           fi
 
@@ -53,6 +59,3 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add temperatuur.txt
-          git commit -m "Update temperatuur" || echo "Geen wijziging"
-          git push
