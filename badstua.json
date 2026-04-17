@@ -1,1 +1,5 @@
-{ "temperature": 10.3, "humidity": 76, "updated": "2026-04-17T10:50:33+00:00" }
+{
+  "temperature": 12.5,
+  "humidity": 78,
+  "updated": "2026-04-17T13:53:22+00:00"
+}
