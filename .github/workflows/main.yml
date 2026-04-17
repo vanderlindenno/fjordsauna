@@ -1,9 +1,9 @@
 name: Badstua get temp
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "*/6 * * * *"
+    - cron: "*/5 * * * *"
+
 
 jobs:
   badstua:
