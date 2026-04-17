@@ -10,7 +10,12 @@
   --primary:#2b5d6e;
   --bg:#f5f7fa;
   --card:#ffffff;
-  --accent:#d35400;
+
+  --temp-cold:#3498db;
+  --temp-warm:#e67e22;
+  --temp-hot:#c0392b;
+
+  --humidity:#27ae60;
 }
 
 *{box-sizing:border-box}
@@ -104,38 +109,21 @@ iframe{
 .sms{background:#6c7580}
 
 /* BADSTUEKLIMA */
-.badstua-card{
-  border-left:6px solid var(--accent);
-}
 .badstua-status{
   font-size:1.2rem;
   font-weight:700;
-  margin-bottom:.3rem;
 }
+
 .badstua-meta{
+  margin-top:.4rem;
   font-size:.9rem;
   color:#555;
-  margin-bottom:.3rem;
 }
-.badstua-countdown{
-  background:#f0f3f6;
-  display:inline-block;
-  padding:.45rem .7rem;
-  border-radius:6px;
-  font-weight:600;
-  font-size:.9rem;
-}
+
 .badstua-ready{
   margin-top:.4rem;
   font-weight:700;
-  color:#c0392b;
-}
-
-footer{
-  text-align:center;
-  padding:1rem;
-  background:#e1e5ea;
-  font-size:.85rem;
+  color:var(--temp-hot);
 }
 </style>
 </head>
@@ -152,15 +140,21 @@ footer{
   <!-- OM BADSTUEN -->
   <div class="card">
     <h2>Om badstuen</h2>
-    <p>Koselig og avslappende badstue, perfekt for restitusjon og sosial hygge.</p>
+    <p>
+      Koselig og avslappende badstue, perfekt for restitusjon,
+      velvære og sosial hygge.
+    </p>
   </div>
 
   <!-- BADSTUEKLIMA -->
-  <div class="card badstua-card">
+  <div class="card">
     <h2>🌡️ Badstueklima</h2>
-    <div id="badstua-status" class="badstua-status">Henter sanntidsdata…</div>
+
+    <div id="badstua-status" class="badstua-status">
+      Henter sanntidsdata…
+    </div>
+
     <div id="badstua-updated" class="badstua-meta"></div>
-    <div id="badstua-countdown" class="badstua-countdown"></div>
     <div id="badstua-ready" class="badstua-ready"></div>
   </div>
 
@@ -216,15 +210,12 @@ footer{
 </footer>
 
 <div class="chat-buttons">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716">💬</a>
-  <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
+  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">💬</a>
+  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">✉️</a>
 </div>
 
 <script>
 const REFRESH_MINUTES = 5;
-
-let nextUpdateTime = null;
-let countdownInterval = null;
 
 function oppdaterBadstua(){
   fetch('badstua.json')
@@ -233,46 +224,36 @@ function oppdaterBadstua(){
       const tempNum = d.temperature;
       const temp = tempNum.toFixed(1).replace('.', ',');
       const hum = d.humidity;
-
       const updated = new Date(d.updated);
-      nextUpdateTime = new Date(updated.getTime() + REFRESH_MINUTES*60000);
+
+      let tempColor = 'var(--temp-cold)';
+      if (tempNum >= 70) tempColor = 'var(--temp-hot)';
+      else if (tempNum >= 40) tempColor = 'var(--temp-warm)';
 
       document.getElementById('badstua-status').innerHTML =
-        `🔥 I badstuen er det nå <strong>${temp} °C</strong> med <strong>${hum} %</strong> luftfuktighet.`;
+        `🔥 I badstuen er det nå 
+         <span style="color:${tempColor}">${temp} °C</span> 
+         med <span style="color:var(--humidity)">${hum} %</span> luftfuktighet.`;
 
       document.getElementById('badstua-updated').innerText =
-        `Sist oppdatert: ${updated.toLocaleString('no-NO')}`;
+        `Sist oppdatert: ${updated.toLocaleString('no-NO')} (neste oppdatering om ${REFRESH_MINUTES} min)`;
 
       document.getElementById('badstua-ready').innerText =
         tempNum >= 70 ? '✅ Badstuen er klar 🔥' : '';
-
-      startCountdown();
+    })
+    .catch(() => {
+      document.getElementById('badstua-status').innerText =
+        '⚠️ Kunne ikke hente badstuedata.';
+      document.getElementById('badstua-updated').innerText = '';
+      document.getElementById('badstua-ready').innerText = '';
     });
 }
 
-function startCountdown(){
-  if (countdownInterval) clearInterval(countdownInterval);
-
-  countdownInterval = setInterval(() => {
-    const diff = nextUpdateTime - new Date();
-
-    if (diff <= 0){
-      document.getElementById('badstua-countdown').innerText =
-        '🔄 Oppdaterer...';
-      return;
-    }
-
-    const total = Math.floor(diff/1000);
-    const min = String(Math.floor(total/60)).padStart(2,'0');
-    const sec = String(total%60).padStart(2,'0');
-
-    document.getElementById('badstua-countdown').innerText =
-      `⏳ Neste oppdatering om ${min}:${sec}`;
-  }, 1000);
-}
-
+// første last
 oppdaterBadstua();
-setInterval(oppdaterBadstua, REFRESH_MINUTES*60000);
+
+// ny data hvert 5. minutt
+setInterval(oppdaterBadstua, REFRESH_MINUTES * 60000);
 </script>
 
 </body>
