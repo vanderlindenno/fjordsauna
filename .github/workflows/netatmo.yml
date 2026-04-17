@@ -41,4 +41,3 @@ jobs:
           git add temperatuur.txt
           git commit -m "Update temperatuur" || exit 0
           git push
-``
