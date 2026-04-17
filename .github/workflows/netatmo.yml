@@ -1,4 +1,4 @@
-name: Update temperatuur
+name: Update temperatur
 
 on:
   schedule:
