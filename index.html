@@ -53,23 +53,18 @@ h2{
 }
 
 /* STATUS */
-.status-main{
+.status{
   font-size:1.4rem;
   font-weight:700;
 }
 
-.status-meta{
+.meta{
   margin-top:.4rem;
   font-size:.9rem;
   color:#555;
 }
 
-.status-ready{
-  margin-top:.5rem;
-  font-weight:700;
-}
-
-/* GALERI */
+/* GALERIJ */
 .gallery{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
@@ -80,7 +75,7 @@ h2{
   border-radius:8px;
 }
 
-/* KART */
+/* KAART */
 iframe{
   width:100%;
   height:320px;
@@ -88,7 +83,7 @@ iframe{
   border-radius:10px;
 }
 
-/* TELEFON */
+/* TELEFOON */
 .mobile{display:none}
 .desktop{display:inline}
 @media (max-width:768px){
@@ -96,7 +91,7 @@ iframe{
   .desktop{display:none}
 }
 
-/* CHAT */
+/* CONTACT KNOPPEN */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -146,18 +141,16 @@ footer{
 
   <div class="card">
     <h2>🌡️ Badstueklima</h2>
-
-    <div id="status" class="status-main">Henter sanntidsdata…</div>
-    <div id="updated" class="status-meta"></div>
-    <div id="ready" class="status-ready"></div>
+    <div id="status" class="status">Henter sanntidsdata…</div>
+    <div id="updated" class="meta"></div>
   </div>
 
   <div class="card">
     <h2>Bilder</h2>
     <div class="gallery">
-      <img src="01.jpg" alt="">
-      <img src="02.jpg" alt="">
-      <img src="03.jpg" alt="">
+      <img src="01.jpg" alt="Badstue">
+      <img src="02.jpg" alt="Badstue">
+      <img src="03.jpg" alt="Badstue">
     </div>
   </div>
 
@@ -206,7 +199,7 @@ footer{
 <script>
 const READY_TEMP = 70;
 const WARM_TEMP = 40;
-const MAX_AGE = 15;
+const MAX_AGE_MIN = 15;
 
 function updateSauna(){
   fetch(`badstua.json?ts=${Date.now()}`)
@@ -217,35 +210,30 @@ function updateSauna(){
       const u = new Date(d.updated);
       const age = (Date.now() - u.getTime()) / 60000;
 
-      let text='', color='', ready='';
+      let tekst = '';
+      let ikon = '❄️';
 
       if (t >= READY_TEMP){
-        text = '✅ Badstuen er klar 🔥';
-        color = 'var(--hot)';
-        ready = 'Klar til bruk';
+        tekst = 'Badstuen er klar';
+        ikon = '🔥';
       } else if (t >= WARM_TEMP){
-        text = '🟡 Oppvarming pågår';
-        color = 'var(--warm)';
-        ready = 'Varmes opp';
+        tekst = 'Oppvarming pågår';
+        ikon = '🟡';
       } else {
-        text = '❄️ Badstuen er kald';
-        color = 'var(--cold)';
+        tekst = 'Badstuen er kald';
+        ikon = '❄️';
       }
 
       document.getElementById('status').innerHTML =
-        `${text}<br><span style="color:${color}">
-        ${t.toFixed(1).replace('.',',')} °C</span> –
-        <span style="color:var(--humidity)">${h} %</span>`;
+        `${tekst}<br>
+         ${ikon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
 
       document.getElementById('updated').innerText =
         `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
 
-      document.getElementById('ready').innerText = ready;
-
-      if (age > MAX_AGE){
+      if (age > MAX_AGE_MIN){
         document.getElementById('status').innerText =
           '⚠️ Data er eldre enn 15 minutter';
-        document.getElementById('ready').innerText = '';
       }
     })
     .catch(()=>{
