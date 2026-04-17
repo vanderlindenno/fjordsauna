@@ -7,7 +7,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Test trigger
-        run: |
-          echo "Workflow gestart via externe cron"
+      - run: |
+          echo "Workflow triggered via API"
           date
