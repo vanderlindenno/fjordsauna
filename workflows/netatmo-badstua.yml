@@ -34,4 +34,3 @@ jobs:
           git pull --rebase origin main
           git commit -m "Update Badstua data" || echo "Geen wijziging"
           git push
-``
