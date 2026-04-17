@@ -10,6 +10,7 @@
   --primary:#2b5d6e;
   --bg:#f5f7fa;
   --card:#ffffff;
+  --accent:#d35400;
 }
 
 *{box-sizing:border-box}
@@ -25,21 +26,21 @@ header{
   background:var(--primary);
   color:#fff;
   text-align:center;
-  padding:2.2rem 1rem;
+  padding:2.4rem 1rem;
 }
 
 main{
-  max-width:820px;
+  max-width:860px;
   margin:auto;
   padding:1rem;
 }
 
 .card{
   background:var(--card);
-  border-radius:8px;
-  padding:1.4rem;
-  margin-bottom:1rem;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  border-radius:12px;
+  padding:1.6rem;
+  margin-bottom:1.2rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
 h2{
@@ -47,41 +48,42 @@ h2{
   margin-top:0;
 }
 
-ul{padding-left:1.2rem}
+.badstua-status{
+  font-size:1.25rem;
+  font-weight:600;
+}
+
+.badstua-meta{
+  margin-top:.4rem;
+  font-size:.9rem;
+  color:#666;
+}
 
 .gallery{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
   gap:10px;
 }
 
 .gallery img{
   width:100%;
-  border-radius:6px;
+  border-radius:8px;
 }
 
 iframe{
   width:100%;
   height:320px;
   border:0;
-  border-radius:8px;
+  border-radius:10px;
 }
 
-/* Telefon – kun klikkbar på mobil */
-.mobile-phone{
-  display:none;
-  text-decoration:none;
-  color:inherit;
-  font-weight:600;
-}
-.desktop-phone{display:inline}
-
-@media(max-width:768px){
-  .mobile-phone{display:inline}
-  .desktop-phone{display:none}
+footer{
+  text-align:center;
+  padding:1.2rem;
+  background:#e1e5ea;
+  font-size:.85rem;
 }
 
-/* Flytende mobilknapper */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -107,16 +109,6 @@ iframe{
 
 .whatsapp{background:#25D366}
 .sms{background:#6c7580}
-
-.mobile-only{display:none}
-@media(max-width:768px){.mobile-only{display:flex}}
-
-footer{
-  text-align:center;
-  padding:1rem;
-  background:#e1e5ea;
-  font-size:.85rem;
-}
 </style>
 </head>
 
@@ -129,9 +121,18 @@ footer{
 
 <main>
 
+  <!-- BADSTUEKLIMA -->
+  <div class="card">
+    <h2>🌡️ Badstueklima</h2>
+    <div id="badstua-status" class="badstua-status">
+      Henter sanntidsdata…
+    </div>
+    <div id="badstua-updated" class="badstua-meta"></div>
+  </div>
+
   <div class="card">
     <h2>Om badstuen</h2>
-    <p>Koselig og avslappende badstue, perfekt for restitusjon og sosial hygge.</p>
+    <p>En koselig og romslig badstue – perfekt for avslapning, restitusjon og sosial hygge.</p>
   </div>
 
   <div class="card">
@@ -158,33 +159,9 @@ footer{
   </div>
 
   <div class="card">
-    <h2>Kapasitet & fasiliteter</h2>
-    <ul>
-      <li>Maks 6 personer (komfortabelt for 4)</li>
-      <li>Omkledning</li>
-      <li>Kald dusj</li>
-    </ul>
-  </div>
-
-  <div class="card">
     <h2>Lokasjon</h2>
-    <iframe 
-      src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
-
-  <div class="card">
-    <h2>Bestilling</h2>
-    <p>
-      📞 
-      <span class="desktop-phone">945 05 716</span>
-      <a class="mobile-phone" href="tel:+4794505716">945 05 716</a>
-    </p>
-    <p>
-      <em>Bestillinger tas kun imot via SMS, WhatsApp eller telefon.</em>
-    </p>
+    <iframe src="https://www.google.com/maps?q=Killand+Badstue+Veg%C3%A5rshei&z=17&output=embed"
+      loading="lazy"></iframe>
   </div>
 
 </main>
@@ -193,11 +170,37 @@ footer{
   © 2026 Killand Badstue
 </footer>
 
-<!-- Mobile snarveier -->
-<div class="chat-buttons mobile-only">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">💬</a>
-  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">✉️</a>
+<div class="chat-buttons">
+  <a class="chat-btn whatsapp" href="https://wa.me/4794505716">💬</a>
+  <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
 </div>
+
+<script>
+function oppdaterBadstua() {
+  fetch('badstua.json')
+    .then(r => r.json())
+    .then(d => {
+      const temp = d.temperature.toFixed(1).replace('.', ',');
+      const hum = d.humidity;
+      const updated = new Date(d.updated).toLocaleString('no-NO');
+
+      document.getElementById('badstua-status').innerHTML =
+        `🔥 I badstuen er det <span style="color:var(--accent)">${temp} °C</span> 
+         med <span style="color:var(--accent)">${hum} %</span> luftfuktighet.`;
+
+      document.getElementById('badstua-updated').innerText =
+        `⏱ Sist oppdatert: ${updated}`;
+    })
+    .catch(() => {
+      document.getElementById('badstua-status').innerText =
+        '⚠️ Kunne ikke hente badstuedata.';
+    });
+}
+
+oppdaterBadstua();
+setInterval(oppdaterBadstua, 5 * 60 * 1000);
+</script>
 
 </body>
 </html>
+``
