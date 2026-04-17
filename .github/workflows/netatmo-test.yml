@@ -1,3 +1,16 @@
+
+ - name: Commit en push temperatuur
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add temperatuur.txt
+          git commit -m "Update Badstua temperatuur" || echo "Geen wijziging"
+
+          git pull --rebase origin main
+          git push
+
+
 name: Netatmo Badstua temperatuur
 
 on:
