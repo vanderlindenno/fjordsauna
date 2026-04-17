@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Haal Netatmo temperatuur op
         env:
@@ -18,23 +19,34 @@ jobs:
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+          echo "🔐 Token ophalen..."
+          RESPONSE=$(curl -s https://api.netatmo.com/oauth2/token \
             -d grant_type=refresh_token \
             -d client_id="$CLIENT_ID" \
             -d client_secret="$CLIENT_SECRET" \
-            -d refresh_token="$REFRESH_TOKEN" \
-            | jq -r '.access_token')
+            -d refresh_token="$REFRESH_TOKEN")
 
-          JSON=$(curl -s https://api.netatmo.com/api/getstationsdata \
-            -H "Authorization: Bearer $TOKEN")
+          TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
 
-          TEMP=$(echo "$JSON" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
-
-          if [ -z "$TEMP" ]; then
-            echo "Geen temperatuur gevonden"
+          if [ -z "$TOKEN" ]; then
+            echo "❌ Geen access_token gekregen:"
+            echo "$RESPONSE"
             exit 0
           fi
 
+          echo "🌡️ Station data ophalen..."
+          STATION=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $TOKEN")
+
+          TEMP=$(echo "$STATION" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
+
+          if [ -z "$TEMP" ]; then
+            echo "❌ Geen temperatuur gevonden:"
+            echo "$STATION"
+            exit 0
+          fi
+
+          echo "✅ Temperatuur: $TEMP °C"
           echo "$TEMP" > temperatuur.txt
 
       - name: Commit en push
