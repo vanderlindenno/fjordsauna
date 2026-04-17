@@ -1,4 +1,4 @@
-name: Netatmo temperatuur test
+name: Netatmo test
 
 on:
   workflow_dispatch:
@@ -7,6 +7,5 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test stap
+      - name: Zeg hallo
         run: echo "Workflow werkt"
-``
