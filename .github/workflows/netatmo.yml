@@ -2,7 +2,7 @@ name: Update temperatuur
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/10 * * * *"   # elke 10 minuten
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Haal Netatmo temperatuur op
@@ -19,43 +19,47 @@ jobs:
           CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.NETATMO_REFRESH_TOKEN }}
         run: |
-          echo "🔐 Access token ophalen…"
+          echo "== Stap 1: Access token ophalen =="
 
-          RAW_TOKEN=$(curl -s https://api.netatmo.com/oauth2/token \
+          TOKEN_RESPONSE=$(curl -s https://api.netatmo.com/oauth2/token \
             -d grant_type=refresh_token \
             -d client_id="$CLIENT_ID" \
             -d client_secret="$CLIENT_SECRET" \
             -d refresh_token="$REFRESH_TOKEN")
 
           echo "Token response:"
-          echo "$RAW_TOKEN"
+          echo "$TOKEN_RESPONSE"
 
-          TOKEN=$(echo "$RAW_TOKEN" | jq -r '.access_token // empty')
+          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
 
-          if [ -z "$TOKEN" ]; then
-            echo "❌ Geen access_token ontvangen – stoppen zonder crash."
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "❌ Geen access token ontvangen, stoppen."
             exit 0
           fi
 
-          echo "🌡️ Station data ophalen…"
+          echo "== Stap 2: Station data ophalen =="
 
-          RAW_STATION=$(curl -s https://api.netatmo.com/api/getstationsdata \
-            -H "Authorization: Bearer $TOKEN")
+          STATION_RESPONSE=$(curl -s https://api.netatmo.com/api/getstationsdata \
+            -H "Authorization: Bearer $ACCESS_TOKEN")
 
           echo "Station response:"
-          echo "$RAW_STATION"
+          echo "$STATION_RESPONSE"
 
-          TEMP=$(echo "$RAW_STATION" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
+          TEMPERATURE=$(echo "$STATION_RESPONSE" | jq -r '.body.devices[0].dashboard_data.Temperature // empty')
 
-          if [ -z "$TEMP" ]; then
-            echo "❌ Geen temperatuur gevonden – stoppen zonder crash."
+          if [ -z "$TEMPERATURE" ]; then
+            echo "❌ Temperatuur niet gevonden, stoppen."
             exit 0
           fi
 
-          echo "✅ Temperatuur: $TEMP °C"
-          echo "$TEMP" > temperatuur.txt
+          echo "✅ Gevonden temperatuur: $TEMPERATURE °C"
+          echo "$TEMPERATURE" > temperatuur.txt
 
-      - name: Commit en push
+      - name: Commit en push temperatuur
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+          git add temperatuur.txt
+          git commit -m "Update temperatuur" || echo "Geen wijziging om te committen"
+          git push
+``
