@@ -95,7 +95,8 @@ iframe{
   gap:12px;
 }
 .chat-btn{
-  width:54px;height:54px;
+  width:54px;
+  height:54px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -156,14 +157,18 @@ footer{
   <h2>Om badstuen</h2>
   <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue – perfekt for avslapning alene, med familie eller venner.</p>
 
-  <p>Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.
-  I hele den perioden dere har booket, har dere badstuen helt for dere selv og kan nyte ro, privatliv og en ekte badstuopplevelse.</p>
+  <p>
+    Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.
+    I hele den perioden dere har booket, har dere badstuen helt for dere selv og kan nyte ro, privatliv og en ekte badstuopplevelse.
+  </p>
 
   <p>For avkjøling finnes det en kald dusj, ideell for å skape kontrast til varmen og gi en forfriskende opplevelse.</p>
-
   <p>Det er også mulighet for å skifte klær i rolige og komfortable omgivelser.</p>
 
-  <p>En vedfyrt badstue gir en myk og behagelig varme, med den karakteristiske duften av fyringsved, og skaper den perfekte rammen for restitusjon, velvære og hyggelige stunder året rundt.</p>
+  <p>
+    En vedfyrt badstue gir en myk og behagelig varme, med den karakteristiske duften av fyringsved, 
+    og skaper den perfekte rammen for restitusjon, velvære og hyggelige stunder året rundt.
+  </p>
 </div>
 
 <div class="card">
@@ -219,6 +224,48 @@ footer{
     <div class="faq-question">🚿 Er det tilgang til dusj?<span>＋</span></div>
     <div class="faq-answer">Ja, vi har en kaldtvannsdusj bak badstuen.</div>
   </div>
+
+  <div class="faq-item">
+    <div class="faq-question">🎒 Hva må jeg ta med meg?<span>＋</span></div>
+    <div class="faq-answer">
+      ✅ Håndkle (påkrevd)<br>
+      💧 Drikkevann (anbefalt)
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">🌊 Kan jeg bade i fjorden?<span>＋</span></div>
+    <div class="faq-answer">
+      Absolutt! Det er et lite stykke å gå.<br>
+      Vi anbefaler bading etter badstueøkten.<br>
+      Badetøy anbefales 🙂
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">👨‍👩‍👧 Er badstuen egnet for barn?<span>＋</span></div>
+    <div class="faq-answer">
+      Minste alder er 12 år.<br>
+      Personer under 18 år må være i følge med voksen.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">👥 Hvor mange er det plass til?<span>＋</span></div>
+    <div class="faq-answer">
+      Opptil 6 gjester.<br>
+      Best komfort med 4–5 personer.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">📅 Avbestillingsvilkår<span>＋</span></div>
+    <div class="faq-answer">
+      Gratis avbestilling inntil 24 timer før.<br>
+      Senere avbestilling refunderes ikke.
+    </div>
+  </div>
+
 </div>
 
 </main>
@@ -250,14 +297,16 @@ function updateSauna(){
   })
   .catch(()=>document.getElementById('status').innerText="⚠️ Kunne ikke hente data");
 }
+
 updateSauna();
 setInterval(updateSauna,300000);
 
 document.querySelectorAll('.faq-question').forEach(q=>{
- q.addEventListener('click',()=>q.parentElement.classList.toggle('open'));
+  q.addEventListener('click',()=>{
+    q.parentElement.classList.toggle('open');
+  });
 });
 </script>
 
 </body>
 </html>
-``
