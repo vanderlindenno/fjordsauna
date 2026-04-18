@@ -47,7 +47,18 @@ h2{
   color:var(--primary);
 }
 
-/* ===== GALLERY ===== */
+.status{
+  font-size:1.4rem;
+  font-weight:700;
+}
+
+.meta{
+  margin-top:.4rem;
+  font-size:.9rem;
+  color:#555;
+}
+
+/* GALLERY */
 .gallery{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
@@ -55,13 +66,10 @@ h2{
 }
 .gallery img{
   width:100%;
-  aspect-ratio:4/3;
-  object-fit:cover;
   border-radius:8px;
-  cursor:pointer;
 }
 
-/* ===== MAP ===== */
+/* MAP */
 iframe{
   width:100%;
   height:320px;
@@ -69,7 +77,7 @@ iframe{
   border-radius:10px;
 }
 
-/* ===== MOBILE LINKS ===== */
+/* MOBILE */
 .mobile{display:none}
 .desktop{display:inline}
 @media (max-width:768px){
@@ -77,7 +85,7 @@ iframe{
   .desktop{display:none}
 }
 
-/* ===== CHAT BUTTONS ===== */
+/* CHAT BUTTONS */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -100,7 +108,7 @@ iframe{
 .whatsapp{background:#25D366}
 .sms{background:#6c7580}
 
-/* ===== FAQ ===== */
+/* FAQ */
 .faq-item{
   border-bottom:1px solid #e5e7eb;
   padding:.8rem 0;
@@ -124,7 +132,7 @@ iframe{
   font-size:.95rem;
   margin-top:.4rem;
 }
-.faq-item.open .faq-answer{max-height:400px}
+.faq-item.open .faq-answer{max-height:500px}
 .faq-item.open .faq-question span{transform:rotate(45deg)}
 
 footer{
@@ -132,33 +140,6 @@ footer{
   padding:1rem;
   color:#777;
 }
-
-/* ===== LIGHTBOX ===== */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-.lightbox.open{display:flex}
-.lightbox img{
-  max-width:92%;
-  max-height:90%;
-  border-radius:10px;
-}
-.lb-close,.lb-prev,.lb-next{
-  position:absolute;
-  color:#fff;
-  font-size:2.4rem;
-  cursor:pointer;
-  user-select:none;
-}
-.lb-close{top:16px;right:20px}
-.lb-prev{left:20px}
-.lb-next{right:20px}
 </style>
 </head>
 
@@ -172,14 +153,71 @@ footer{
 <main>
 
 <div class="card">
+  <h2>Om badstuen</h2>
+  <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue – perfekt for avslapning alene, med familie eller venner.</p>
+
+  <p>Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.
+  I hele den perioden dere har booket, har dere badstuen helt for dere selv og kan nyte ro, privatliv og en ekte badstuopplevelse.</p>
+
+  <p>For avkjøling finnes det en kald dusj, ideell for å skape kontrast til varmen og gi en forfriskende opplevelse.</p>
+
+  <p>Det er også mulighet for å skifte klær i rolige og komfortable omgivelser.</p>
+
+  <p>En vedfyrt badstue gir en myk og behagelig varme, med den karakteristiske duften av fyringsved, og skaper den perfekte rammen for restitusjon, velvære og hyggelige stunder året rundt.</p>
+</div>
+
+<div class="card">
+  <h2>Badstueklima 🌡️</h2>
+  <div id="status" class="status">Henter sanntidsdata…</div>
+  <div id="updated" class="meta"></div>
+</div>
+
+<div class="card">
   <h2>Bilder</h2>
   <div class="gallery">
-    <img src="01.jpg" loading="lazy" alt="Badstue bilde 1">
-    <img src="02.jpg" loading="lazy" alt="Badstue bilde 2">
-    <img src="03.jpg" loading="lazy" alt="Badstue bilde 3">
-    <img src="04.jpg" loading="lazy" alt="Badstue bilde 4">
-    <img src="05.jpg" loading="lazy" alt="Badstue bilde 5">
-    <img src="06.jpg" loading="lazy" alt="Badstue bilde 6">
+    <img src="01.jpg" alt="Badstue">
+    <img src="02.jpg" alt="Badstue">
+    <img src="03.jpg" alt="Badstue">
+  </div>
+</div>
+
+<div class="card">
+  <h2>Åpningstider</h2>
+  <ul>
+    <li>Onsdag og fredag</li>
+    <li>Kl. 18:00 – 23:00</li>
+    <li>Etter avtale</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>Priser</h2>
+  <p><strong>500 kr per time</strong> – uavhengig av antall personer</p>
+</div>
+
+<div class="card">
+  <h2>Lokasjon</h2>
+  <iframe src="https://www.google.com/maps?q=58.794737,8.791239&z=14&output=embed" loading="lazy"></iframe>
+</div>
+
+<div class="card">
+  <h2>Bestilling</h2>
+  📞 <span class="desktop">945 05 716</span>
+  <a class="mobile" href="tel:+4794505716">945 05 716</a>
+  <p><em>Bestilles via telefon, SMS eller WhatsApp.</em></p>
+</div>
+
+<div class="card">
+  <h2>Ofte stilte spørsmål ❓</h2>
+
+  <div class="faq-item">
+    <div class="faq-question">👙 Må jeg ha på badetøy?<span>＋</span></div>
+    <div class="faq-answer">Det kan du bestemme selv 🙂</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">🚿 Er det tilgang til dusj?<span>＋</span></div>
+    <div class="faq-answer">Ja, vi har en kaldtvannsdusj bak badstuen.</div>
   </div>
 </div>
 
@@ -192,64 +230,34 @@ footer{
   <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
 </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span class="lb-close" id="lbClose">✕</span>
-  <span class="lb-prev" id="lbPrev">❮</span>
-  <img id="lbImg">
-  <span class="lb-next" id="lbNext">❯</span>
-</div>
-
 <script>
-/* FAQ */
+const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
+
+function updateSauna(){
+ fetch(`badstua.json?ts=${Date.now()}`)
+  .then(r=>r.json())
+  .then(d=>{
+    const t=d.temperature,h=d.humidity,u=new Date(d.updated);
+    const age=(Date.now()-u)/60000;
+    let text=t>=READY_TEMP?"🔥 Badstuen er klar":t>=WARM_TEMP?"🟡 Oppvarming pågår":"❄️ Badstuen er kald nå";
+    document.getElementById('status').innerHTML=
+      `${text}<br>${t.toFixed(1).replace('.',',')} °C – 💧 ${h}%`;
+    document.getElementById('updated').innerText=
+      `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+    if(age>MAX_AGE_MIN){
+      document.getElementById('status').innerText="⚠️ Data er eldre enn 15 minutter";
+    }
+  })
+  .catch(()=>document.getElementById('status').innerText="⚠️ Kunne ikke hente data");
+}
+updateSauna();
+setInterval(updateSauna,300000);
+
 document.querySelectorAll('.faq-question').forEach(q=>{
-  q.onclick=()=>q.parentElement.classList.toggle('open');
-});
-
-/* LIGHTBOX */
-const imgs=[...document.querySelectorAll('.gallery img')];
-const lb=document.getElementById('lightbox');
-const lbImg=document.getElementById('lbImg');
-let i=0;
-
-imgs.forEach((img,idx)=>{
-  img.dataset.index=idx;
-  img.onclick=()=>{
-    i=idx;
-    lbImg.src=img.src;
-    lb.classList.add('open');
-  };
-});
-
-document.getElementById('lbClose').onclick=()=>lb.classList.remove('open');
-lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open')};
-
-document.getElementById('lbNext').onclick=()=>{
-  i=(i+1)%imgs.length;
-  lbImg.src=imgs[i].src;
-};
-document.getElementById('lbPrev').onclick=()=>{
-  i=(i-1+imgs.length)%imgs.length;
-  lbImg.src=imgs[i].src;
-};
-
-document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')lb.classList.remove('open');
-  if(e.key==='ArrowRight')lbNext.click();
-  if(e.key==='ArrowLeft')lbPrev.click();
-});
-
-/* Swipe */
-let x=0;
-lb.addEventListener('touchstart',e=>x=e.touches[0].clientX,{passive:true});
-lb.addEventListener('touchend',e=>{
-  let d=e.changedTouches[0].clientX-x;
-  if(Math.abs(d)>50){
-    d<0?lbNext.click():lbPrev.click();
-  }
+ q.addEventListener('click',()=>q.parentElement.classList.toggle('open'));
 });
 </script>
 
 </body>
 </html>
+``
