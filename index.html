@@ -238,12 +238,19 @@ footer {
 }
 
 .footer-link {
-  color: inherit;                 /* zelfde kleur */
-  font-family: inherit;           /* zelfde lettertype */
+  color: inherit;                    /* zelfde kleur als footer */
+  font-family: inherit;              /* zelfde lettertype */
   text-decoration: none;
   cursor: pointer;
-  border-bottom: 1px dotted currentColor; /* altijd subtiel zichtbaar */
+  border-bottom: 1px dotted currentColor; /* constant subtiel zichtbaar */
+  display: inline-block;             /* nodig voor scale */
+  transition: transform 0.15s ease;  /* soepele animatie */
 }
+
+.footer-link:hover {
+  transform: scale(1.08);             /* iets groter bij hover */
+}
+``
 
 </style>
 </head>
