@@ -238,13 +238,16 @@ footer {
 }
 
 .footer-link {
-  color: #555;              /* iets meer aandacht */
-  text-decoration: none;
+  color: #444;                  /* iets donkerder dan footer */
+  text-decoration: none;        /* geen standaard onderstreping */
   font-weight: 500;
+  cursor: pointer;              /* belangrijke klik-indicator */
+  border-bottom: 1px dotted #aaa; /* subtiele klik-hint */
 }
 
 .footer-link:hover {
-  color: #000;              /* duidelijk bij hover */
+  color: #000;
+  border-bottom-color: #000;    /* sterker bij hover */
 }
 
 </style>
@@ -328,7 +331,9 @@ footer {
 <footer>
   © 2026 Vegårstue
   <span class="footer-separator">•</span>
-  webdesign og utvikling
+  <a href="mailto:john@vanderlinden.no?subject=Webdesign%20og%20utvikling"
+     class="footer-link">
+    webdesign og utvikling
   </a>
 </footer>
   
