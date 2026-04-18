@@ -92,27 +92,45 @@ iframe{
 }
 
 /* CHAT BUTTONS */
+
+.chat-buttons{
+  display:none;
+}
+
+@media (max-width: 768px){
 .chat-buttons{
   position:fixed;
   bottom:20px;
   right:15px;
-  display:flex;
+  display:none;
   flex-direction:column;
   gap:12px;
+  z-index:1000;
 }
+
+@media (max-width:768px){
+  .chat-buttons{
+    display:flex;
+  }
+}
+
 .chat-btn{
-  width:54px;height:54px;
+  width:56px;
+  height:56px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:22px;
-  color:#fff;
-  text-decoration:none;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
 }
-.whatsapp{background:#25D366}
-.sms{background:#6c7580}
+
+.chat-btn.whatsapp{
+  background:#25D366;
+}
+
+.chat-btn.sms{
+  background:#6c7580;
+}
 
 /* FAQ */
 .faq-item{
@@ -205,13 +223,11 @@ footer{
   <p>En vedfyrt badstue gir myk, behagelig varme og den ekte duften av fyringsved – perfekt for velvære året rundt.</p>
 </div>
 
-
 <div class="card">
   <h2>Badstueklima 🌡️</h2>
   <div id="status" class="status">Henter sanntidsdata…</div>
   <div id="updated" class="meta"></div>
 </div>
-
 
 
 <div class="card">
@@ -274,11 +290,18 @@ footer{
 </div>
 
 
-<div class="lightbox" id="lightbox">
-  <span class="lb-close" id="lbClose">✕</span>
-  <span class="lb-prev" id="lbPrev">❮</span>
-  <img id="lbImage">
-  <span class="lb-next" id="lbNext">❯</span>
+<div class="chat-buttons">
+  <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" width="26" height="26" fill="white">
+      <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5 2.5 7L4 29l7.9-2.4c1.3.4 2.7.6 4.1.6 6.6 0 12-5.1 12-11.3S22.6 3 16 3zm6.6 15.6c-.3.8-1.6 1.5-2.2 1.6-.6.1-1.3.1-2.2-.1-.5-.1-1.2-.4-2.1-.8-3.6-1.6-5.9-5.3-6.1-5.6-.2-.3-1.5-1.9-1.5-3.7 0-1.7.9-2.6 1.3-2.9.3-.3.7-.3.9-.3h.6c.2 0 .5-.1.8.6.3.7 1 2.4 1.1 2.6.1.2.1.4 0 .6-.1.2-.2.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.5 1.4 1.2 2.6 1.6 3 .1.4.2.6.2.8-.1.2-.9 1-1.9 1.2-1z"/>
+    </svg>
+  </a>
+
+  <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+    </svg>
+  </a>
 </div>
 
 
@@ -289,45 +312,19 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 });
 
 /* Sauna data */
-
-const READY_TEMP = 70;
-const WARM_TEMP  = 40;
-const MAX_AGE_MIN = 15;
-
+const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
 function updateSauna(){
-  fetch(`badstua.json?ts=${Date.now()}`)
-    .then(r => r.json())
-    .then(d => {
-      const t = d.temperature;
-      const h = d.humidity;
-      const u = new Date(d.updated);
-      const age = (Date.now() - u) / 60000;
-
-      let text =
-        t >= READY_TEMP ? "🔥 Badstuen er klar" :
-        t >= WARM_TEMP  ? "🟡 Oppvarming pågår" :
-                          "❄️ Badstuen er kald nå";
-
-      document.getElementById('status').innerHTML =
-        `${text}<br>${t.toFixed(1).replace('.', ',')} °C – 💧 ${h}%`;
-
-      document.getElementById('updated').innerText =
-        `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-
-      if (age > MAX_AGE_MIN) {
-        document.getElementById('status').innerText =
-          "⚠️ Data er eldre enn 15 minutter";
-      }
-    })
-    .catch(() => {
-      document.getElementById('status').innerText =
-        "⚠️ Kunne ikke hente data";
-    });
+ fetch(`badstua.json?ts=${Date.now()}`)
+  .then(r=>r.json())
+  .then(d=>{
+    const u=new Date(d.updated);
+    document.getElementById('status').innerHTML=
+      `${d.temperature} °C – 💧 ${d.humidity}%`;
+    document.getElementById('updated').innerText=
+      `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+  });
 }
-
 updateSauna();
-setInterval(updateSauna, 300000);
-
 
 /* Lightbox – stap 2 */
 document.addEventListener('DOMContentLoaded',()=>{
