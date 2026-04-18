@@ -205,11 +205,13 @@ footer{
   <p>En vedfyrt badstue gir myk, behagelig varme og den ekte duften av fyringsved – perfekt for velvære året rundt.</p>
 </div>
 
+
 <div class="card">
   <h2>Badstueklima 🌡️</h2>
   <div id="status" class="status">Henter sanntidsdata…</div>
   <div id="updated" class="meta"></div>
 </div>
+
 
 
 <div class="card">
@@ -287,19 +289,45 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 });
 
 /* Sauna data */
-const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
+
+const READY_TEMP = 70;
+const WARM_TEMP  = 40;
+const MAX_AGE_MIN = 15;
+
 function updateSauna(){
- fetch(`badstua.json?ts=${Date.now()}`)
-  .then(r=>r.json())
-  .then(d=>{
-    const u=new Date(d.updated);
-    document.getElementById('status').innerHTML=
-      `${d.temperature} °C – 💧 ${d.humidity}%`;
-    document.getElementById('updated').innerText=
-      `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-  });
+  fetch(`badstua.json?ts=${Date.now()}`)
+    .then(r => r.json())
+    .then(d => {
+      const t = d.temperature;
+      const h = d.humidity;
+      const u = new Date(d.updated);
+      const age = (Date.now() - u) / 60000;
+
+      let text =
+        t >= READY_TEMP ? "🔥 Badstuen er klar" :
+        t >= WARM_TEMP  ? "🟡 Oppvarming pågår" :
+                          "❄️ Badstuen er kald nå";
+
+      document.getElementById('status').innerHTML =
+        `${text}<br>${t.toFixed(1).replace('.', ',')} °C – 💧 ${h}%`;
+
+      document.getElementById('updated').innerText =
+        `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+
+      if (age > MAX_AGE_MIN) {
+        document.getElementById('status').innerText =
+          "⚠️ Data er eldre enn 15 minutter";
+      }
+    })
+    .catch(() => {
+      document.getElementById('status').innerText =
+        "⚠️ Kunne ikke hente data";
+    });
 }
+
 updateSauna();
+setInterval(updateSauna, 300000);
+
 
 /* Lightbox – stap 2 */
 document.addEventListener('DOMContentLoaded',()=>{
