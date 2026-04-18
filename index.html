@@ -58,7 +58,7 @@ h2{
   color:#555;
 }
 
-/* GALLERY – STAP 1 */
+/* ===== GALLERY ===== */
 .gallery{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -73,6 +73,7 @@ h2{
   object-fit:cover;
   border-radius:8px;
   cursor:pointer;
+  background:#e5e7eb;
 }
 
 /* MAP */
@@ -83,7 +84,7 @@ iframe{
   border-radius:10px;
 }
 
-/* MOBILE */
+/* MOBILE LINKS */
 .mobile{display:none}
 .desktop{display:inline}
 @media (max-width:768px){
@@ -91,13 +92,7 @@ iframe{
   .desktop{display:none}
 }
 
-/* CHAT BUTTONS */
-
-.chat-buttons{
-  display:none;
-}
-
-@media (max-width: 768px){
+/* ===== CHAT BUTTONS (ALLEEN MOBIEL) ===== */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -107,13 +102,9 @@ iframe{
   gap:12px;
   z-index:1000;
 }
-
 @media (max-width:768px){
-  .chat-buttons{
-    display:flex;
-  }
+  .chat-buttons{display:flex;}
 }
-
 .chat-btn{
   width:56px;
   height:56px;
@@ -123,16 +114,10 @@ iframe{
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
 }
+.chat-btn.whatsapp{background:#25D366}
+.chat-btn.sms{background:#6c7580}
 
-.chat-btn.whatsapp{
-  background:#25D366;
-}
-
-.chat-btn.sms{
-  background:#6c7580;
-}
-
-/* FAQ */
+/* ===== FAQ (ORIGINEEL) ===== */
 .faq-item{
   border-bottom:1px solid #e5e7eb;
   padding:.8rem 0;
@@ -140,6 +125,7 @@ iframe{
 .faq-question{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   cursor:pointer;
   font-weight:600;
 }
@@ -164,7 +150,7 @@ footer{
   color:#777;
 }
 
-/* LIGHTBOX – STAP 2 */
+/* ===== LIGHTBOX ===== */
 .lightbox{
   position:fixed;
   inset:0;
@@ -180,29 +166,18 @@ footer{
   max-height:90%;
   border-radius:10px;
 }
-.lb-close{
-  position:absolute;
-  top:16px;
-  right:20px;
-  font-size:2.4rem;
-  color:#fff;
-  cursor:pointer;
-}
-/* LIGHTBOX NAV – STAP 3 */
+.lb-close,
 .lb-prev,
 .lb-next{
   position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:2.6rem;
   color:#fff;
+  font-size:2.4rem;
   cursor:pointer;
   user-select:none;
-  padding:0 12px;
 }
-
-.lb-prev{ left:10px; }
-.lb-next{ right:10px; }
+.lb-close{top:16px;right:20px}
+.lb-prev{left:20px;top:50%;transform:translateY(-50%)}
+.lb-next{right:20px;top:50%;transform:translateY(-50%)}
 </style>
 </head>
 
@@ -218,19 +193,16 @@ footer{
 <div class="card">
   <h2>Om badstuen</h2>
   <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue – perfekt for avslapning alene, med familie eller venner.</p>
-  <p>Badstuen er alltid ferdig oppvarmet når dere ankommer. I hele perioden dere har booket, disponerer dere badstuen helt privat.</p>
-  <p>For avkjøling finnes det en kald dusj, og det er gode muligheter for å skifte klær komfortabelt.</p>
-  <p>En vedfyrt badstue gir myk, behagelig varme og den ekte duften av fyringsved – perfekt for velvære året rundt.</p>
+  <p>Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.</p>
+  <p>For avkjøling finnes det en kald dusj, ideell for kontrast til varmen.</p>
+  <p>En vedfyrt badstue gir myk og behagelig varme med duften av fyringsved.</p>
 </div>
-
 
 <div class="card">
   <h2>Badstueklima 🌡️</h2>
   <div id="status" class="status">Henter sanntidsdata…</div>
   <div id="updated" class="meta"></div>
 </div>
-
-
 
 <div class="card">
   <h2>Bilder</h2>
@@ -243,7 +215,6 @@ footer{
     <img src="06.jpg" alt="Badstue" loading="lazy" decoding="async">
   </div>
 </div>
-
 
 <div class="card">
   <h2>Åpningstider</h2>
@@ -273,7 +244,6 @@ footer{
 
 <div class="card">
   <h2>Ofte stilte spørsmål ❓</h2>
-
   <div class="faq-item"><div class="faq-question">👙 Må jeg ha på badetøy?<span>＋</span></div><div class="faq-answer">Det bestemmer du selv 🙂</div></div>
   <div class="faq-item"><div class="faq-question">🚿 Er det dusj?<span>＋</span></div><div class="faq-answer">Ja, kaldtvannsdusj bak badstuen.</div></div>
   <div class="faq-item"><div class="faq-question">🎒 Hva må jeg ta med?<span>＋</span></div><div class="faq-answer">✅ Håndkle (påkrevd)<br>💧 Drikkevann anbefales</div></div>
@@ -287,128 +257,62 @@ footer{
 <footer>© 2026 Vegårstue</footer>
 
 <div class="chat-buttons">
-  <a class="chat-btn whatsapp" href="https://wa.me/4794505716">💬</a>
-  <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
-</div>
-
-
-<div class="chat-buttons">
   <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">
-    <svg viewBox="0 0 32 32" width="26" height="26" fill="white">
-      <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5 2.5 7L4 29l7.9-2.4c1.3.4 2.7.6 4.1.6 6.6 0 12-5.1 12-11.3S22.6 3 16 3zm6.6 15.6c-.3.8-1.6 1.5-2.2 1.6-.6.1-1.3.1-2.2-.1-.5-.1-1.2-.4-2.1-.8-3.6-1.6-5.9-5.3-6.1-5.6-.2-.3-1.5-1.9-1.5-3.7 0-1.7.9-2.6 1.3-2.9.3-.3.7-.3.9-.3h.6c.2 0 .5-.1.8.6.3.7 1 2.4 1.1 2.6.1.2.1.4 0 .6-.1.2-.2.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.5 1.4 1.2 2.6 1.6 3 .1.4.2.6.2.8-.1.2-.9 1-1.9 1.2-1z"/>
-    </svg>
+    <!-- WhatsApp SVG -->
+    <svg viewBox="0 0 32 32" width="26" height="26" fill="white"><path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5 2.5 7L4 29l7.9-2.4c1.3.4 2.7.6 4.1.6 6.6 0 12-5.1 12-11.3S22.6 3 16 3z"/></svg>
   </a>
-
   <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-    </svg>
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4z"/></svg>
   </a>
 </div>
 
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" id="lbClose">✕</span>
+  <span class="lb-prev" id="lbPrev">❮</span>
+  <img id="lbImage">
+  <span class="lb-next" id="lbNext">❯</span>
+</div>
 
 <script>
-/* FAQ */
 document.querySelectorAll('.faq-question').forEach(q=>{
   q.onclick=()=>q.parentElement.classList.toggle('open');
 });
 
-/* Sauna data */
-
-const READY_TEMP = 70;
-const WARM_TEMP = 40;
-const MAX_AGE_MIN = 15;
-
+const READY_TEMP=70,WARM_TEMP=40,MAX_AGE_MIN=15;
 function updateSauna(){
-  fetch(`badstua.json?ts=${Date.now()}`)
-    .then(r => r.json())
-    .then(d => {
-      const t = d.temperature;
-      const h = d.humidity;
-      const u = new Date(d.updated);
-      const age = (Date.now() - u) / 60000;
-
-      let text =
-        t >= READY_TEMP ? "🔥 Badstuen er klar" :
-        t >= WARM_TEMP  ? "🟡 Oppvarming pågår" :
-                          "❄️ Badstuen er kald nå";
-
-      document.getElementById('status').innerHTML =
-        `${text}<br>${t.toFixed(1).replace('.', ',')} °C – 💧 ${h}%`;
-
-      document.getElementById('updated').innerText =
-        `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-
-      if (age > MAX_AGE_MIN) {
-        document.getElementById('status').innerText =
-          "⚠️ Data er eldre enn 15 minutter";
-      }
-    })
-    .catch(() => {
-      document.getElementById('status').innerText =
-        "⚠️ Kunne ikke hente data";
-    });
+ fetch(`badstua.json?ts=${Date.now()}`).then(r=>r.json()).then(d=>{
+  const t=d.temperature,h=d.humidity,u=new Date(d.updated),age=(Date.now()-u)/60000;
+  let text=t>=READY_TEMP?"🔥 Badstuen er klar":t>=WARM_TEMP?"🟡 Oppvarming pågår":"❄️ Badstuen er kald nå";
+  document.getElementById('status').innerHTML=`${text}<br>${t.toFixed(1).replace('.',',')} °C – 💧 ${h}%`;
+  document.getElementById('updated').innerText=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+  if(age>MAX_AGE_MIN) document.getElementById('status').innerText="⚠️ Data er eldre enn 15 minutter";
+ });
 }
-
 updateSauna();
-setInterval(updateSauna, 300000);
+setInterval(updateSauna,300000);
 
-
-/* Lightbox – stap 2 */
 document.addEventListener('DOMContentLoaded',()=>{
-  const imgs  = Array.from(document.querySelectorAll('.gallery img'));
-  const lb    = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImage');
-  const prev  = document.getElementById('lbPrev');
-  const next  = document.getElementById('lbNext');
-  const close = document.getElementById('lbClose');
-
-  let index = 0;
-
-  function show(i){
-    index = (i + imgs.length) % imgs.length;
-    lbImg.src = imgs[index].src;
-  }
-
-  // open
-  imgs.forEach((img,i)=>{
-    img.onclick=()=>{
-      show(i);
-      lb.classList.add('open');
-    };
-  });
-
-  // buttons
-  prev.onclick=()=>show(index - 1);
-  next.onclick=()=>show(index + 1);
-  close.onclick=()=>lb.classList.remove('open');
-
-  // outside click
-  lb.onclick=e=>{
-    if(e.target===lb) lb.classList.remove('open');
-  };
-
-  // keyboard
-  document.addEventListener('keydown',e=>{
-    if(!lb.classList.contains('open')) return;
-    if(e.key==='Escape') lb.classList.remove('open');
-    if(e.key==='ArrowRight') show(index + 1);
-    if(e.key==='ArrowLeft')  show(index - 1);
-  });
-
-  // ✅ SWIPE (STAP 4)
-  let startX = 0;
-
-  lb.addEventListener('touchstart',e=>{
-    startX = e.changedTouches[0].screenX;
-  }, {passive:true});
-
-  lb.addEventListener('touchend',e=>{
-    const diff = e.changedTouches[0].screenX - startX;
-    if(Math.abs(diff) > 50){
-      diff < 0 ? show(index + 1) : show(index - 1);
-    }
-  });
+ const imgs=[...document.querySelectorAll('.gallery img')];
+ const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImage');
+ let i=0;
+ function show(n){i=(n+imgs.length)%imgs.length;lbImg.src=imgs[i].src;}
+ imgs.forEach((img,idx)=>img.onclick=()=>{show(idx);lb.classList.add('open');});
+ lbClose.onclick=()=>lb.classList.remove('open');
+ lbPrev.onclick=()=>show(i-1);
+ lbNext.onclick=()=>show(i+1);
+ lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open');};
+ document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');
+  if(e.key==='ArrowRight')show(i+1);
+  if(e.key==='ArrowLeft')show(i-1);
+ });
+ let startX=0;
+ lb.addEventListener('touchstart',e=>startX=e.changedTouches[0].screenX,{passive:true});
+ lb.addEventListener('touchend',e=>{
+  const d=e.changedTouches[0].screenX-startX;
+  if(Math.abs(d)>50) d<0?show(i+1):show(i-1);
+ });
 });
 </script>
 
