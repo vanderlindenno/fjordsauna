@@ -3,44 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vegårstue – Bilder</title>
+<title>Vegårstue – Badstua mellom fjell og fjord</title>
 
 <style>
+:root{
+  --primary:#2b5d6e;
+  --bg:#f5f7fa;
+  --card:#ffffff;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:system-ui,Arial,sans-serif;
-  background:#f5f7fa;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:#333;
+}
+
+header{
+  background:var(--primary);
+  color:#fff;
+  text-align:center;
+  padding:2.5rem 1rem;
 }
 
 main{
-  max-width:900px;
+  max-width:820px;
   margin:auto;
   padding:1rem;
 }
 
 .card{
-  background:#fff;
+  background:var(--card);
   border-radius:12px;
   padding:1.5rem;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  margin-bottom:1rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.05);
 }
 
-/* Gallery */
+h2{
+  margin-top:0;
+  color:var(--primary);
+}
+
+/* ===== GALLERY ===== */
 .gallery{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:12px;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
 }
-
 .gallery img{
   width:100%;
   aspect-ratio:4/3;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:8px;
   cursor:pointer;
 }
 
-/* Lightbox */
+/* ===== MAP ===== */
+iframe{
+  width:100%;
+  height:320px;
+  border:0;
+  border-radius:10px;
+}
+
+/* ===== MOBILE LINKS ===== */
+.mobile{display:none}
+.desktop{display:inline}
+@media (max-width:768px){
+  .mobile{display:inline}
+  .desktop{display:none}
+}
+
+/* ===== CHAT BUTTONS ===== */
+.chat-buttons{
+  position:fixed;
+  bottom:20px;
+  right:15px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.chat-btn{
+  width:54px;height:54px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  color:#fff;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
+.whatsapp{background:#25D366}
+.sms{background:#6c7580}
+
+/* ===== FAQ ===== */
+.faq-item{
+  border-bottom:1px solid #e5e7eb;
+  padding:.8rem 0;
+}
+.faq-question{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  font-weight:600;
+}
+.faq-question span{
+  font-size:1.4rem;
+  transition:transform .2s ease;
+}
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .25s ease;
+  color:#555;
+  font-size:.95rem;
+  margin-top:.4rem;
+}
+.faq-item.open .faq-answer{max-height:400px}
+.faq-item.open .faq-question span{transform:rotate(45deg)}
+
+footer{
+  text-align:center;
+  padding:1rem;
+  color:#777;
+}
+
+/* ===== LIGHTBOX ===== */
 .lightbox{
   position:fixed;
   inset:0;
@@ -48,26 +141,22 @@ main{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:1000;
+  z-index:9999;
 }
-
 .lightbox.open{display:flex}
-
 .lightbox img{
   max-width:92%;
   max-height:90%;
   border-radius:10px;
 }
-
 .lb-close,.lb-prev,.lb-next{
   position:absolute;
   color:#fff;
-  font-size:2.5rem;
+  font-size:2.4rem;
   cursor:pointer;
   user-select:none;
 }
-
-.lb-close{top:15px;right:20px}
+.lb-close{top:16px;right:20px}
 .lb-prev{left:20px}
 .lb-next{right:20px}
 </style>
@@ -75,75 +164,92 @@ main{
 
 <body>
 
+<header>
+  <h1>Vegårstue – Badstua mellom fjell og fjord</h1>
+  <p>Lei badstue – en varm opplevelse året rundt</p>
+</header>
+
 <main>
-  <div class="card">
-    <h2>Bilder</h2>
 
-    <div class="gallery">
-      <img src="01.jpg" loading="lazy" data-index="0" alt="Badstue">
-      <img src="02.jpg" loading="lazy" data-index="1" alt="Badstue">
-      <img src="03.jpg" loading="lazy" data-index="2" alt="Badstue">
-      <img src="04.jpg" loading="lazy" data-index="3" alt="Badstue">
-      <img src="05.jpg" loading="lazy" data-index="4" alt="Badstue">
-      <img src="06.jpg" loading="lazy" data-index="5" alt="Badstue">
-    </div>
+<div class="card">
+  <h2>Bilder</h2>
+  <div class="gallery">
+    <img src="01.jpg" loading="lazy" alt="Badstue bilde 1">
+    <img src="02.jpg" loading="lazy" alt="Badstue bilde 2">
+    <img src="03.jpg" loading="lazy" alt="Badstue bilde 3">
+    <img src="04.jpg" loading="lazy" alt="Badstue bilde 4">
+    <img src="05.jpg" loading="lazy" alt="Badstue bilde 5">
+    <img src="06.jpg" loading="lazy" alt="Badstue bilde 6">
   </div>
-
-  <!-- VOORBEELD: REST VAN PAGINA -->
-  <div class="card" style="margin-top:1rem">
-    <h2>Over de badstue</h2>
-    <p>Deze content blijft nu gewoon zichtbaar ✅</p>
-  </div>
+</div>
 
 </main>
 
-<!-- Lightbox -->
+<footer>© 2026 Vegårstue</footer>
+
+<div class="chat-buttons">
+  <a class="chat-btn whatsapp" href="https://wa.me/4794505716">💬</a>
+  <a class="chat-btn sms" href="sms:+4794505716">✉️</a>
+</div>
+
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <span class="lb-close" id="close">✕</span>
-  <span class="lb-prev" id="prev">❮</span>
-  <img id="lightImg">
-  <span class="lb-next" id="next">❯</span>
+  <span class="lb-close" id="lbClose">✕</span>
+  <span class="lb-prev" id="lbPrev">❮</span>
+  <img id="lbImg">
+  <span class="lb-next" id="lbNext">❯</span>
 </div>
 
 <script>
-const images=[...document.querySelectorAll('.gallery img')];
-const lightbox=document.getElementById('lightbox');
-const lightImg=document.getElementById('lightImg');
-let index=0;
-
-// open
-images.forEach(img=>{
-  img.onclick=()=>{
-    index=+img.dataset.index;
-    show();
-    lightbox.classList.add('open');
-  }
+/* FAQ */
+document.querySelectorAll('.faq-question').forEach(q=>{
+  q.onclick=()=>q.parentElement.classList.toggle('open');
 });
 
-function show(){
-  lightImg.src=images[index].src;
-}
+/* LIGHTBOX */
+const imgs=[...document.querySelectorAll('.gallery img')];
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+let i=0;
 
-// close
-document.getElementById('close').onclick=()=>lightbox.classList.remove('open');
-lightbox.onclick=e=>{if(e.target===lightbox)lightbox.classList.remove('open')};
+imgs.forEach((img,idx)=>{
+  img.dataset.index=idx;
+  img.onclick=()=>{
+    i=idx;
+    lbImg.src=img.src;
+    lb.classList.add('open');
+  };
+});
 
-// nav
-document.getElementById('next').onclick=()=>{index=(index+1)%images.length;show();}
-document.getElementById('prev').onclick=()=>{index=(index-1+images.length)%images.length;show();}
+document.getElementById('lbClose').onclick=()=>lb.classList.remove('open');
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open')};
 
-// swipe
-let startX=0;
-lightbox.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
-lightbox.addEventListener('touchend',e=>{
-  let diff=e.changedTouches[0].clientX-startX;
-  if(Math.abs(diff)>50){
-    diff<0?document.getElementById('next').click():
-            document.getElementById('prev').click();
+document.getElementById('lbNext').onclick=()=>{
+  i=(i+1)%imgs.length;
+  lbImg.src=imgs[i].src;
+};
+document.getElementById('lbPrev').onclick=()=>{
+  i=(i-1+imgs.length)%imgs.length;
+  lbImg.src=imgs[i].src;
+};
+
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');
+  if(e.key==='ArrowRight')lbNext.click();
+  if(e.key==='ArrowLeft')lbPrev.click();
+});
+
+/* Swipe */
+let x=0;
+lb.addEventListener('touchstart',e=>x=e.touches[0].clientX,{passive:true});
+lb.addEventListener('touchend',e=>{
+  let d=e.changedTouches[0].clientX-x;
+  if(Math.abs(d)>50){
+    d<0?lbNext.click():lbPrev.click();
   }
 });
 </script>
 
 </body>
 </html>
-``
