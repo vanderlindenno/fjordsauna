@@ -3,29 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vegårstue – Badstua mellom fjell og fjord</title>
+<title>Vegårstue – Bilder</title>
 
 <style>
-:root{
-  --primary:#2b5d6e;
-  --bg:#f5f7fa;
-  --card:#ffffff;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:#333;
-}
-
-header{
-  background:var(--primary);
-  color:#fff;
-  text-align:center;
-  padding:2.5rem 1rem;
+  font-family:system-ui,Arial,sans-serif;
+  background:#f5f7fa;
 }
 
 main{
@@ -35,19 +19,13 @@ main{
 }
 
 .card{
-  background:var(--card);
+  background:#fff;
   border-radius:12px;
   padding:1.5rem;
-  margin-bottom:1rem;
-  box-shadow:0 4px 14px rgba(0,0,0,.05);
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
-h2{
-  margin-top:0;
-  color:var(--primary);
-}
-
-/* ===== GALLERY ===== */
+/* Gallery */
 .gallery{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -60,14 +38,9 @@ h2{
   object-fit:cover;
   border-radius:10px;
   cursor:pointer;
-  transition:transform .2s ease;
 }
 
-.gallery img:hover{
-  transform:scale(1.02);
-}
-
-/* ===== LIGHTBOX ===== */
+/* Lightbox */
 .lightbox{
   position:fixed;
   inset:0;
@@ -75,8 +48,7 @@ h2{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:9999;
-  touch-action:pan-y;
+  z-index:1000;
 }
 
 .lightbox.open{display:flex}
@@ -87,130 +59,87 @@ h2{
   border-radius:10px;
 }
 
-/* CONTROLS */
-.lb-close,
-.lb-prev,
-.lb-next{
+.lb-close,.lb-prev,.lb-next{
   position:absolute;
   color:#fff;
-  font-size:2.8rem;
+  font-size:2.5rem;
   cursor:pointer;
   user-select:none;
 }
 
-.lb-close{ top:16px; right:22px; }
-.lb-prev{ left:18px; }
-.lb-next{ right:18px; }
-
-@media (max-width:768px){
-  .lb-prev,.lb-next{ font-size:2.2rem; }
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:1rem;
-  color:#777;
-}
+.lb-close{top:15px;right:20px}
+.lb-prev{left:20px}
+.lb-next{right:20px}
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Vegårstue – Badstua mellom fjell og fjord</h1>
-  <p>Lei badstue – en varm opplevelse året rundt</p>
-</header>
-
 <main>
+  <div class="card">
+    <h2>Bilder</h2>
 
-<div class="card">
-  <h2>Bilder</h2>
-
-  <div class="gallery">
-    <img src="01.jpg" loading="lazy" data-index="0" alt="Badstue 1">
-    <img src="02.jpg" loading="lazy" data-index="1" alt="Badstue 2">
-    <img src="03.jpg" loading="lazy" data-index="2" alt="Badstue 3">
-    <img src="04.jpg" loading="lazy" data-index="3" alt="Badstue 4">
-    <img src="05.jpg" loading="lazy" data-index="4" alt="Badstue 5">
-    <img src="06.jpg" loading="lazy" data-index="5" alt="Badstue 6">
+    <div class="gallery">
+      <img src="01.jpg" loading="lazy" data-index="0" alt="Badstue">
+      <img src="02.jpg" loading="lazy" data-index="1" alt="Badstue">
+      <img src="03.jpg" loading="lazy" data-index="2" alt="Badstue">
+      <img src="04.jpg" loading="lazy" data-index="3" alt="Badstue">
+      <img src="05.jpg" loading="lazy" data-index="4" alt="Badstue">
+      <img src="06.jpg" loading="lazy" data-index="5" alt="Badstue">
+    </div>
   </div>
-</div>
+
+  <!-- VOORBEELD: REST VAN PAGINA -->
+  <div class="card" style="margin-top:1rem">
+    <h2>Over de badstue</h2>
+    <p>Deze content blijft nu gewoon zichtbaar ✅</p>
+  </div>
 
 </main>
 
-<footer>© 2026 Vegårstue</footer>
-
-<!-- LIGHTBOX -->
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
-  <span class="lb-close" id="lbClose">✕</span>
-  <span class="lb-prev" id="lbPrev">❮</span>
-  <img id="lbImg" src="" alt="">
-  <span class="lb-next" id="lbNext">❯</span>
+  <span class="lb-close" id="close">✕</span>
+  <span class="lb-prev" id="prev">❮</span>
+  <img id="lightImg">
+  <span class="lb-next" id="next">❯</span>
 </div>
 
 <script>
-const images=[
-  '01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg'
-];
-
+const images=[...document.querySelectorAll('.gallery img')];
 const lightbox=document.getElementById('lightbox');
-const lbImg=document.getElementById('lbImg');
+const lightImg=document.getElementById('lightImg');
 let index=0;
 
-/* ===== SHOW IMAGE ===== */
-function show(){
-  lbImg.src=images[index];
-}
-
-/* ===== OPEN ===== */
-document.querySelectorAll('.gallery img').forEach(img=>{
-  img.addEventListener('click',()=>{
-    index=Number(img.dataset.index);
+// open
+images.forEach(img=>{
+  img.onclick=()=>{
+    index=+img.dataset.index;
     show();
     lightbox.classList.add('open');
-  });
+  }
 });
 
-/* ===== CLOSE ===== */
-function closeLb(){
-  lightbox.classList.remove('open');
+function show(){
+  lightImg.src=images[index].src;
 }
-document.getElementById('lbClose').onclick=closeLb;
-lightbox.onclick=e=>{ if(e.target===lightbox) closeLb(); };
 
-/* ===== NAVIGATION ===== */
-document.getElementById('lbNext').onclick=()=>{
-  index=(index+1)%images.length;
-  show();
-};
+// close
+document.getElementById('close').onclick=()=>lightbox.classList.remove('open');
+lightbox.onclick=e=>{if(e.target===lightbox)lightbox.classList.remove('open')};
 
-document.getElementById('lbPrev').onclick=()=>{
-  index=(index-1+images.length)%images.length;
-  show();
-};
+// nav
+document.getElementById('next').onclick=()=>{index=(index+1)%images.length;show();}
+document.getElementById('prev').onclick=()=>{index=(index-1+images.length)%images.length;show();}
 
-/* ===== KEYBOARD ===== */
-document.addEventListener('keydown',e=>{
-  if(!lightbox.classList.contains('open')) return;
-  if(e.key==='Escape') closeLb();
-  if(e.key==='ArrowRight') document.getElementById('lbNext').click();
-  if(e.key==='ArrowLeft') document.getElementById('lbPrev').click();
-});
-
-/* ===== SWIPE (MOBILE) ===== */
+// swipe
 let startX=0;
-
-lightbox.addEventListener('touchstart',e=>{
-  startX=e.changedTouches[0].screenX;
-},{passive:true});
-
+lightbox.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
 lightbox.addEventListener('touchend',e=>{
-  let diff=e.changedTouches[0].screenX-startX;
+  let diff=e.changedTouches[0].clientX-startX;
   if(Math.abs(diff)>50){
-    diff<0
-      ? document.getElementById('lbNext').click()
-      : document.getElementById('lbPrev').click();
+    diff<0?document.getElementById('next').click():
+            document.getElementById('prev').click();
   }
 });
 </script>
