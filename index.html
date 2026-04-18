@@ -250,11 +250,82 @@ footer {
 .footer-link:hover {
   transform: scale(1.08);             /* iets groter bij hover */
 }
-``
+
+/* 🚧 MAINTENANCE MODAL */
+.maintenance-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+
+.maintenance-modal.open{
+  display:flex;
+}
+
+.maintenance-box{
+  background:#fff;
+  max-width:420px;
+  margin:1rem;
+  padding:1.8rem 1.6rem;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  animation:modalFadeIn .25s ease;
+}
+
+.maintenance-box h2{
+  color:#b91c1c;
+  margin-top:0;
+}
+
+.maintenance-box p{
+  margin:.6rem 0;
+  color:#333;
+}
+
+.maintenance-muted{
+  font-size:.9rem;
+  color:#666;
+}
+
+.maintenance-box button{
+  margin-top:1.2rem;
+  padding:.6rem 1.2rem;
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:#fff;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+@keyframes modalFadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}  
 
 </style>
 </head>
-
+<!-- 🚧 DRIFTSMELDING POPUP -->
+<div id="maintenanceModal" class="maintenance-modal">
+  <div class="maintenance-box">
+    <h2>ℹ️ Midlertidig stengt</h2>
+    <p>
+      Badstuen er for øyeblikket <strong>midlertidig stengt grunnet vedlikehold</strong>.
+    </p>
+    <p>
+      Vi jobber med forbedringer og gleder oss til å ønske gjester velkommen igjen svært snart 🔥
+    </p>
+    <p class="maintenance-muted">
+      Takk for forståelsen – ta gjerne kontakt dersom du har spørsmål.
+    </p>
+    <button id="maintenanceClose">Lukk</button>
+  </div>
+</div>
 <body>
 
 <header>
@@ -430,6 +501,32 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(Math.abs(d)>50) d<0?show(i+1):show(i-1);
  });
 });
+
+/* ================================
+   🚧 MAINTENANCE POPUP – 
+   ================================ */
+
+const MAINTENANCE_MODE = true; // true = popup AAN, false = UIT
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('maintenanceModal');
+  const closeBtn = document.getElementById('maintenanceClose');
+
+  if (MAINTENANCE_MODE) {
+    modal.classList.add('open');
+  }
+
+  closeBtn.onclick = () => {
+    modal.classList.remove('open');
+  };
+
+  modal.onclick = e => {
+    if (e.target === modal) {
+      modal.classList.remove('open');
+    }
+  };
+});
+  
 </script>
 
 </body>
