@@ -226,7 +226,21 @@ footer{
 .sauna-cold{color:#1e40af;}
 .sauna-warm{color:#b45309;}
 .sauna-ready{color:#b91c1c;}
- 
+
+footer {
+  color: #666;            /* standaard footer-kleur */
+  font-size: 0.9em;
+}
+
+.footer-link {
+  color: inherit;         /* zelfde kleur als footer */
+  text-decoration: none; /* geen onderstreping */
+}
+
+.footer-link:hover {
+  color: #333;            /* subtiel donkerder bij hover */
+} 
+  
 </style>
 </head>
 
@@ -305,7 +319,12 @@ footer{
 
 </main>
 
-<footer>© 2026 Vegårstue</footer>
+<footer>
+  © 2026 Vegårstue – 
+  <a href="mailto:john@vanderlinden.no" class="footer-link">
+    webdesign og utvikling
+  </a>
+</footer>
 
 <!-- ✅ SVG CHAT KNOPPEN  -->
 <div class="chat-buttons">
