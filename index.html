@@ -113,9 +113,18 @@ iframe{
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
+  overflow:hidden;   /* 🔑 DIT WAS DE MISSENDE SLEUTEL */
 }
-.chat-btn.whatsapp{background:#25D366}
-.chat-btn.sms{background:#6c7580}
+
+.chat-btn img{
+  width:28px;
+  height:28px;
+  object-fit:contain;
+  display:block;
+}
+
+.chat-btn.whatsapp{ background:#25D366; }
+.chat-btn.sms{ background:#6c7580; }
 
 
 
