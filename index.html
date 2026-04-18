@@ -317,33 +317,40 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   q.onclick=()=>q.parentElement.classList.toggle('open');
 });
 
-const READY_TEMP=70,WARM_TEMP=40,MAX_AGE_MIN=15;
+const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
+
+const TEXT_COLD = "Badstuen er kald nå";
+const TEXT_WARMING = "Badstuen varmes opp nå";
+const TEXT_READY = "Badstuen er på tempratur nå";
+
 function updateSauna(){
- fetch(`badstua.json?ts=${Date.now()}`).then(r=>r.json()).then(d=>{
-  const t=d.temperature;
-  const h=d.humidity;
-  const u=new Date(d.updated);
-  const age=(Date.now()-u)/60000;
+ fetch(`badstua.json?ts=${Date.now()}`)
+  .then(r => r.json())
+  .then(d => {
+    const t = d.temperature;
+    const h = d.humidity;
+    const u = new Date(d.updated);
+    const age = (Date.now() - u) / 60000;
 
-  let statusText = t >= READY_TEMP
-    ? "🔥 Badstuen er klar"
-    : t >= WARM_TEMP
-      ? "🟡 Badstuen varmes opp"
-      : "Badstuen er kald";
+    let statusText = t >= READY_TEMP
+      ? TEXT_READY
+      : t >= WARM_TEMP
+        ? TEXT_WARMING
+        : TEXT_COLD;
 
-  let icon = t < WARM_TEMP ? "❄️" : "🌡️";
+    let icon = t < WARM_TEMP ? "❄️" : "🌡️";
 
-  document.getElementById('status').innerHTML =
-    `<strong>${statusText}</strong><br>
-     ${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
+    document.getElementById('status').innerHTML =
+      `<strong>${statusText}</strong><br>
+       ${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
 
-  document.getElementById('updated').innerText =
-    `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+    document.getElementById('updated').innerText =
+      `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
 
-  if(age > MAX_AGE_MIN){
-    document.getElementById('status').innerText =
-      "⚠️ Data er eldre enn 15 minutter";
-  }
+    if(age > MAX_AGE_MIN){
+      document.getElementById('status').innerText =
+        "⚠️ Data er eldre enn 15 minutter";
+    }
  });
 }
 updateSauna();
