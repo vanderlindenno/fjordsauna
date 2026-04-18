@@ -356,9 +356,9 @@ function updateSauna(){
     const upd=document.getElementById('updated');
 
     let txt,icon,cls;
-    if(t>=READY_TEMP){txt="Badstuen er på tempratur nå";icon="🔥";cls="sauna-ready";}
-    else if(t>=WARM_TEMP){txt="Badstuen varmes opp nå";icon="🟡";cls="sauna-warm";}
-    else{txt="Badstuen er kald nå";icon="❄️";cls="sauna-cold";}
+    if(t>=READY_TEMP){txt="Badstuen er på tempratur nå :";icon="🔥";cls="sauna-ready";}
+    else if(t>=WARM_TEMP){txt="Badstuen varmes opp nå :";icon="🟡";cls="sauna-warm";}
+    else{txt="Badstuen er kald nå :";icon="❄️";cls="sauna-cold";}
 
     state.textContent=txt;
     state.className=`sauna-state ${cls}`;
