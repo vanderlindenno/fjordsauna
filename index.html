@@ -48,8 +48,9 @@ h2{
 }
 
 .status{
-  font-size:1.4rem;
-  font-weight:700;
+  font-size:1.1rem;
+  font-weight:600;
+  margin-bottom:.3rem;
 }
 
 .meta{
@@ -113,8 +114,7 @@ iframe{
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
-  overflow:hidden;   /* 🔑 DIT WAS DE MISSENDE SLEUTEL */
-}
+  overflow:hidden;
 
 .chat-btn img{
   width:56px;
@@ -320,13 +320,33 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 const READY_TEMP=70,WARM_TEMP=40,MAX_AGE_MIN=15;
 function updateSauna(){
  fetch(`badstua.json?ts=${Date.now()}`).then(r=>r.json()).then(d=>{
-  const t=d.temperature,h=d.humidity,u=new Date(d.updated),age=(Date.now()-u)/60000;
-  let text=t>=READY_TEMP?"🔥 Badstuen er klar":t>=WARM_TEMP?"🟡 Oppvarming pågår":"❄️ Badstuen er kald nå";
-  document.getElementById('status').innerHTML=`${text}<br>${t.toFixed(1).replace('.',',')} °C – 💧 ${h}%`;
-  document.getElementById('updated').innerText=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-  if(age>MAX_AGE_MIN) document.getElementById('status').innerText="⚠️ Data er eldre enn 15 minutter";
+  const t=d.temperature;
+  const h=d.humidity;
+  const u=new Date(d.updated);
+  const age=(Date.now()-u)/60000;
+
+  let statusText = t >= READY_TEMP
+    ? "🔥 Badstuen er klar"
+    : t >= WARM_TEMP
+      ? "🟡 Badstuen varmes opp"
+      : "Badstuen er kald";
+
+  let icon = t < WARM_TEMP ? "❄️" : "🌡️";
+
+  document.getElementById('status').innerHTML =
+    `<strong>${statusText}</strong><br>
+     ${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
+
+  document.getElementById('updated').innerText =
+    `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+
+  if(age > MAX_AGE_MIN){
+    document.getElementById('status').innerText =
+      "⚠️ Data er eldre enn 15 minutter";
+  }
  });
 }
+``
 updateSauna();setInterval(updateSauna,300000);
 
 document.addEventListener('DOMContentLoaded',()=>{
