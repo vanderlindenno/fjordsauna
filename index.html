@@ -58,7 +58,7 @@ h2{
   color:#555;
 }
 
-/* ===== GALLERY ===== */
+/* GALLERY */
 .gallery{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -84,7 +84,7 @@ iframe{
   border-radius:10px;
 }
 
-/* MOBILE LINKS */
+/* MOBILE */
 .mobile{display:none}
 .desktop{display:inline}
 @media (max-width:768px){
@@ -92,7 +92,7 @@ iframe{
   .desktop{display:none}
 }
 
-/* ===== CHAT BUTTONS (ALLEEN MOBIEL) ===== */
+/* CHAT BUTTONS – ALLEEN MOBIEL, SVG */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -117,7 +117,7 @@ iframe{
 .chat-btn.whatsapp{background:#25D366}
 .chat-btn.sms{background:#6c7580}
 
-/* ===== FAQ (ORIGINEEL) ===== */
+/* FAQ (ORIGINEEL) */
 .faq-item{
   border-bottom:1px solid #e5e7eb;
   padding:.8rem 0;
@@ -150,7 +150,7 @@ footer{
   color:#777;
 }
 
-/* ===== LIGHTBOX ===== */
+/* LIGHTBOX */
 .lightbox{
   position:fixed;
   inset:0;
@@ -166,9 +166,7 @@ footer{
   max-height:90%;
   border-radius:10px;
 }
-.lb-close,
-.lb-prev,
-.lb-next{
+.lb-close,.lb-prev,.lb-next{
   position:absolute;
   color:#fff;
   font-size:2.4rem;
@@ -195,7 +193,7 @@ footer{
   <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue – perfekt for avslapning alene, med familie eller venner.</p>
   <p>Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.</p>
   <p>For avkjøling finnes det en kald dusj, ideell for kontrast til varmen.</p>
-  <p>En vedfyrt badstue gir myk og behagelig varme med duften av fyringsved.</p>
+  <p>En vedfyrt badstue gir myk og behagelig varme med ekte duft av fyringsved.</p>
 </div>
 
 <div class="card">
@@ -256,13 +254,18 @@ footer{
 
 <footer>© 2026 Vegårstue</footer>
 
+<!-- ✅ SVG CHAT KNOPPEN (ENIGE VERSIE) -->
 <div class="chat-buttons">
   <a class="chat-btn whatsapp" href="https://wa.me/4794505716" aria-label="WhatsApp">
-    <!-- WhatsApp SVG -->
-    <svg viewBox="0 0 32 32" width="26" height="26" fill="white"><path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5 2.5 7L4 29l7.9-2.4c1.3.4 2.7.6 4.1.6 6.6 0 12-5.1 12-11.3S22.6 3 16 3z"/></svg>
+    <svg viewBox="0 0 32 32" width="26" height="26" fill="white">
+      <path d="M16 3C9.4 3 4 8.1 4 14.3c0 2.6.9 5 2.5 7L4 29l7.9-2.4c1.3.4 2.7.6 4.1.6 6.6 0 12-5.1 12-11.3S22.6 3 16 3z"/>
+    </svg>
   </a>
+
   <a class="chat-btn sms" href="sms:+4794505716" aria-label="SMS">
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4z"/></svg>
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4z"/>
+    </svg>
   </a>
 </div>
 
@@ -288,8 +291,7 @@ function updateSauna(){
   if(age>MAX_AGE_MIN) document.getElementById('status').innerText="⚠️ Data er eldre enn 15 minutter";
  });
 }
-updateSauna();
-setInterval(updateSauna,300000);
+updateSauna();setInterval(updateSauna,300000);
 
 document.addEventListener('DOMContentLoaded',()=>{
  const imgs=[...document.querySelectorAll('.gallery img')];
