@@ -340,17 +340,39 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   q.onclick=()=>q.parentElement.classList.toggle('open');
 });
 
-const READY_TEMP=70,WARM_TEMP=40,MAX_AGE_MIN=15;
+const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
+
 function updateSauna(){
- fetch(`badstua.json?ts=${Date.now()}`).then(r=>r.json()).then(d=>{
-  const t=d.temperature,h=d.humidity,u=new Date(d.updated),age=(Date.now()-u)/60000;
-  let text=t>=READY_TEMP?"🔥 Badstuen er klar":t>=WARM_TEMP?"🟡 Oppvarming pågår":"❄️ Badstuen er kald nå";
-  document.getElementById('status').innerHTML=`${text}<br>${t.toFixed(1).replace('.',',')} °C – 💧 ${h}%`;
-  document.getElementById('updated').innerText=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-  if(age>MAX_AGE_MIN) document.getElementById('status').innerText="⚠️ Data er eldre enn 15 minutter";
- });
+ fetch(`badstua.json?ts=${Date.now()}`)
+  .then(r=>r.json())
+  .then(d=>{
+    const t=d.temperature, h=d.humidity;
+    const u=new Date(d.updated);
+    const age=(Date.now()-u)/60000;
+
+    const state=document.getElementById('saunaState');
+    const values=document.getElementById('saunaValues');
+    const upd=document.getElementById('updated');
+
+    let txt,icon,cls;
+    if(t>=READY_TEMP){txt="Badstuen er klar";icon="🔥";cls="sauna-ready";}
+    else if(t>=WARM_TEMP){txt="Badstuen varmes opp";icon="🟡";cls="sauna-warm";}
+    else{txt="Badstuen er kald";icon="❄️";cls="sauna-cold";}
+
+    state.textContent=txt;
+    state.className=`sauna-state ${cls}`;
+    values.innerHTML=`${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
+    upd.textContent=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+
+    if(age>MAX_AGE_MIN){
+      state.textContent="⚠️ Data er eldre enn 15 minutter";
+      values.textContent="";
+    }
+  });
 }
-updateSauna();setInterval(updateSauna,300000);
+
+updateSauna();
+setInterval(updateSauna,300000);
 
 document.addEventListener('DOMContentLoaded',()=>{
  const imgs=[...document.querySelectorAll('.gallery img')];
