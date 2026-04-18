@@ -93,7 +93,7 @@ iframe{
   .desktop{display:none}
 }
 
-/* CHAT BUTTONS – ALLEEN MOBIEL, SVG */
+/* CHAT BUTTONS */
 .chat-buttons{
   position:fixed;
   bottom:20px;
@@ -106,6 +106,7 @@ iframe{
 @media (max-width:768px){
   .chat-buttons{display:flex;}
 }
+
 .chat-btn{
   width:56px;
   height:56px;
@@ -115,7 +116,8 @@ iframe{
   justify-content:center;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
   overflow:hidden;
-
+  background:#0b5ed7;
+}
 .chat-btn img{
   width:56px;
   height:56px;
@@ -123,29 +125,7 @@ iframe{
   display:block;
 }
 
-.chat-btn.whatsapp{ background:#0b5ed7; }
-.chat-btn.sms{ background:#0b5ed7; }
-.chat-btn.call{ background:#0b5ed7; }
-  
-@keyframes whatsapp-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
-  }
-  70% {
-    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
-}
-
-.chat-btn.whatsapp{
-  animation: whatsapp-pulse 2.2s infinite;
-}
-
-
-
-/* FAQ (ORIGINEEL) */
+/* FAQ */
 .faq-item{
   border-bottom:1px solid #e5e7eb;
   padding:.8rem 0;
@@ -218,14 +198,11 @@ footer{
 
 <div class="card">
   <h2>Om badstuen 🧖</h2>
-  <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue – perfekt for avslapning alene, med familie eller venner.</p>
-  <p>Badstuen er alltid ferdig oppvarmet når dere ankommer, slik at dere kan lene dere tilbake og nyte varmen med én gang.</p>
-  <p>For avkjøling finnes det en kald dusj, ideell for kontrast til varmen.</p>
-  <p>En vedfyrt badstue gir myk og behagelig varme med ekte duft av fyringsved.</p>
+  <p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue.</p>
 </div>
 
 <div class="card">
-  <h2>Badstueklima 🌡️</h2>
+  <h2>🌡️ Badstueklima</h2>
   <div id="status" class="status">Henter sanntidsdata…</div>
   <div id="updated" class="meta"></div>
 </div>
@@ -233,76 +210,23 @@ footer{
 <div class="card">
   <h2>Bilder 🖼️</h2>
   <div class="gallery">
-    <img src="01.jpg" alt="Badstue" loading="lazy" decoding="async">
-    <img src="02.jpg" alt="Badstue" loading="lazy" decoding="async">
-    <img src="03.jpg" alt="Badstue" loading="lazy" decoding="async">
-    <img src="04.jpg" alt="Badstue" loading="lazy" decoding="async">
-    <img src="05.jpg" alt="Badstue" loading="lazy" decoding="async">
-    <img src="06.jpg" alt="Badstue" loading="lazy" decoding="async">
+    <img src="01.jpg" alt="">
+    <img src="02.jpg" alt="">
+    <img src="03.jpg" alt="">
+    <img src="04.jpg" alt="">
+    <img src="05.jpg" alt="">
+    <img src="06.jpg" alt="">
   </div>
-</div>
-
-<div class="card">
-  <h2>Åpningstider  📅</h2>
-  <ul>
-    <li>Onsdag og fredag etter avtale</li>
-    <li>Kl. 18:00 – 23:00</li>
-  </ul>
-</div>
-
-<div class="card">
-  <h2>Pris 💰</h2>
-  <p><strong>500 kr per time</strong> – uavhengig av antall personer</p>
-  <p>Betaling via Vipps etter bekreftelse av dato og tid via SMS eller WhatsApp.</p>
-</div>
-
-<div class="card">
-  <h2>Lokasjon 📍</h2>
-  <iframe src="https://www.google.com/maps?q=58.794737,8.791239&z=14&output=embed" loading="lazy"></iframe>
-</div>
-
-<div class="card">
-  <h2>Bestilling 📞</h2>
-  <span class="desktop">945 05 716</span>
-  <a class="mobile" href="tel:+4794505716">945 05 716</a>
-  <p><em>Bestilles via telefon, SMS eller WhatsApp.</em></p>
-</div>
-
-<div class="card">
-  <h2>Ofte stilte spørsmål ❓</h2>
-  <div class="faq-item"><div class="faq-question">👙 Må jeg ha på badetøy?<span>＋</span></div><div class="faq-answer">Det bestemmer du selv 🙂</div></div>
-  <div class="faq-item"><div class="faq-question">🚿 Er det dusj?<span>＋</span></div><div class="faq-answer">Ja, kaldtvannsdusj bak badstuen.</div></div>
-  <div class="faq-item"><div class="faq-question">🎒 Hva må jeg ta med?<span>＋</span></div><div class="faq-answer">✅ Håndkle (påkrevd)<br>💧 Drikkevann anbefales<br>🩴 Badesandaler anbefales</div></div>
-  <div class="faq-item"><div class="faq-question">🌊 Kan jeg bade i fjorden?<span>＋</span></div><div class="faq-answer">Ja, et lite stykke å gå.</div></div>
-  <div class="faq-item"><div class="faq-question">👥 Hvor mange er det plass til?<span>＋</span></div><div class="faq-answer">Opptil 6 gjester. Best komfort 4–5.</div></div>
-  <div class="faq-item"><div class="faq-question">📅 Avbestillingsvilkår<span>＋</span></div><div class="faq-answer">Gratis inntil 24 timer før.</div></div>
 </div>
 
 </main>
 
 <footer>© 2026 Vegårstue</footer>
 
-<!-- ✅ SVG CHAT KNOPPEN  -->
 <div class="chat-buttons">
-
-  <a class="chat-btn whatsapp"
-     href="https://wa.me/4794505716"
-     aria-label="WhatsApp">
-    <img src="wa.png" alt="WhatsApp">
-  </a>
-
-  <a class="chat-btn sms"
-     href="sms:+4794505716"
-     aria-label="SMS">
-    <img src="sms.png" alt="SMS">
-  </a>
-  
-<a class="chat-btn call"
-   href="tel:+4794505716"
-   aria-label="Bellen">
-  <img src="phone.png" alt="Ring">
-</a>
-
+  <a class="chat-btn" href="https://wa.me/4794505716"><img src="wa.png"></a>
+  <a class="chat-btn" href="sms:+4794505716"><img src="sms.png"></a>
+  <a class="chat-btn" href="tel:+4794505716"><img src="phone.png"></a>
 </div>
 
 <div class="lightbox" id="lightbox">
@@ -318,69 +242,40 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 });
 
 const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
-
-const TEXT_COLD = "Badstuen er kald nå";
-const TEXT_WARMING = "Badstuen varmes opp nå";
-const TEXT_READY = "Badstuen er på tempratur nå";
+const TEXT_COLD="Badstuen er kald";
+const TEXT_WARM="Badstuen varmes opp";
+const TEXT_READY="Badstuen er klar";
 
 function updateSauna(){
  fetch(`badstua.json?ts=${Date.now()}`)
-  .then(r => r.json())
-  .then(d => {
-    const t = d.temperature;
-    const h = d.humidity;
-    const u = new Date(d.updated);
-    const age = (Date.now() - u) / 60000;
-
-    let statusText = t >= READY_TEMP
-      ? TEXT_READY
-      : t >= WARM_TEMP
-        ? TEXT_WARMING
-        : TEXT_COLD;
-
-    let icon = t < WARM_TEMP ? "❄️" : "🌡️";
-
-    document.getElementById('status').innerHTML =
-      `<strong>${statusText}</strong><br>
-       ${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
-
-    document.getElementById('updated').innerText =
-      `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-
-    if(age > MAX_AGE_MIN){
-      document.getElementById('status').innerText =
-        "⚠️ Data er eldre enn 15 minutter";
-    }
- });
+  .then(r=>r.json())
+  .then(d=>{
+    const t=d.temperature;
+    const h=d.humidity;
+    const u=new Date(d.updated);
+    let text=t>=READY_TEMP?TEXT_READY:t>=WARM_TEMP?TEXT_WARM:TEXT_COLD;
+    let icon=t<WARM_TEMP?"❄️":"🌡️";
+    status.innerHTML=`<strong>${text}</strong><br>${icon} ${t} °C – 💧 ${h}%`;
+    updated.innerText=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+  });
 }
-updateSauna();
-setInterval(updateSauna,300000);
-
 
 document.addEventListener('DOMContentLoaded',()=>{
- const imgs=[...document.querySelectorAll('.gallery img')];
- const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImage');
- let i=0;
- function show(n){i=(n+imgs.length)%imgs.length;lbImg.src=imgs[i].src;}
- imgs.forEach((img,idx)=>img.onclick=()=>{show(idx);lb.classList.add('open');});
- lbClose.onclick=()=>lb.classList.remove('open');
- lbPrev.onclick=()=>show(i-1);
- lbNext.onclick=()=>show(i+1);
- lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open');};
- document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')lb.classList.remove('open');
-  if(e.key==='ArrowRight')show(i+1);
-  if(e.key==='ArrowLeft')show(i-1);
- });
- let startX=0;
- lb.addEventListener('touchstart',e=>startX=e.changedTouches[0].screenX,{passive:true});
- lb.addEventListener('touchend',e=>{
-  const d=e.changedTouches[0].screenX-startX;
-  if(Math.abs(d)>50) d<0?show(i+1):show(i-1);
- });
+  updateSauna();
+  setInterval(updateSauna,300000);
+
+  const imgs=[...document.querySelectorAll('.gallery img')];
+  const lb=lightbox, lbImg=lbImage;
+  let i=0;
+
+  function show(n){i=(n+imgs.length)%imgs.length;lbImg.src=imgs[i].src;}
+  imgs.forEach((img,idx)=>img.onclick=()=>{show(idx);lb.classList.add('open');});
+  lbClose.onclick=()=>lb.classList.remove('open');
+  lbPrev.onclick=()=>show(i-1);
+  lbNext.onclick=()=>show(i+1);
 });
 </script>
 
 </body>
 </html>
+``
