@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Webdesign og utvikling | Komplett nettside</title>
-
 <meta name="description" content="Få en komplett og profesjonell nettside med eget domene og personlig e-post – perfekt tilpasset mobil og PC. Kun 3000 kr per år.">
 
 <style>
@@ -65,14 +64,6 @@ h2{
 .price{
   font-size:1.6rem;
   font-weight:700;
-  margin:.5rem 0;
-}
-
-ul{
-  padding-left:1.1rem;
-}
-
-li{
   margin:.4rem 0;
 }
 
@@ -112,6 +103,8 @@ button:hover{opacity:.95}
 
 small{
   color:#555;
+  display:block;
+  margin-top:.6rem;
 }
 
 /* FOOTER */
@@ -129,20 +122,20 @@ footer{
 <header>
   <h1>Webdesign og utvikling</h1>
   <p>
-    Ønsker du en profesjonell og moderne nettside som fungerer perfekt på både mobil og PC?
-    Vi leverer komplette løsninger – enkelt, oversiktlig og til fast pris.
+    Få en komplett, moderne og mobiltilpasset nettside med eget domene
+    og profesjonell e‑post – til fast og forutsigbar pris.
   </p>
 </header>
 
 <main>
 
 <div class="card">
-  <h2>✅ Hva er inkludert?</h2>
+  <h2>✅ Dette får du</h2>
   <ul>
-    <li>Responsiv nettside tilpasset mobil og PC</li>
-    <li>Eget domenenavn (.no eller annet etter avtale)</li>
+    <li>Responsiv nettside (mobil, nettbrett og PC)</li>
+    <li>Eget domenenavn (.no eller etter avtale)</li>
     <li>Personlig e‑postadresse (f.eks. kontakt@dittdomene.no)</li>
-    <li>Moderne design og strukturert innhold</li>
+    <li>Moderne design og ryddig struktur</li>
     <li>Grunnleggende søkemotoroptimalisering (SEO)</li>
     <li>Teknisk oppsett og drift</li>
   </ul>
@@ -153,7 +146,7 @@ footer{
   <div class="price">3000 kr per år</div>
   <p>
     Fast lav pris – ingen skjulte kostnader.  
-    Perfekt for små bedrifter, enkeltpersonforetak og prosjekter.
+    Ideelt for små bedrifter, enkeltpersonforetak og prosjekter.
   </p>
 </div>
 
@@ -164,7 +157,9 @@ footer{
     for å avtale videre detaljer.
   </p>
 
-  https://formspree.io/f/mqewbrla
+  <form action="https://formspree.io/f/mqewbrla" method="POST">
+    <input type="hidden" name="_redirect" value="takk.html">
+    <input type="text" name="_gotcha" style="display:none">
 
     <label for="name">Navn</label>
     <input id="name" name="name" required>
@@ -177,9 +172,7 @@ footer{
 
     <button type="submit">Send melding</button>
 
-    <small>
-      ✅ Takk for forespørselen – vi tar kontakt så raskt som mulig.
-    </small>
+    <small>✅ Takk for forespørselen – vi tar kontakt så raskt som mulig.</small>
   </form>
 </div>
 
