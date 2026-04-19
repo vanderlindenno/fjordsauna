@@ -6,7 +6,7 @@
 
 <title>Webdesign og utvikling | Komplett nettside</title>
 <meta name="description"
-      content="Komplett og profesjonell nettside med eget domene og personlig e-post. Mobil- og PC-tilpasset. Fast pris: 3000 kr per år.">
+      content="Profesjonell nettside med eget domene og personlig e‑post. Mobil og PC. Fast pris: 3000 kr per år.">
 
 <style>
 :root{
@@ -110,7 +110,14 @@ button{
 
 button:hover{opacity:.95}
 
-/* SUCCESS / ERROR */
+/* VALIDATION / SUCCESS */
+#validationError{
+  display:none;
+  margin-top:1rem;
+  color:#b91c1c;
+  font-weight:600;
+}
+
 #successMessage{
   display:none;
   margin-top:1.5rem;
@@ -136,7 +143,6 @@ button:hover{opacity:.95}
   to{opacity:1; transform:none;}
 }
 
-/* FOOTER */
 footer{
   text-align:center;
   padding:1.4rem;
@@ -151,8 +157,8 @@ footer{
 <header>
   <h1>Webdesign og utvikling</h1>
   <p>
-    Profesjonelle, moderne og mobiltilpassede nettsider –
-    komplett løsning med domene og e‑post til fast pris.
+    Komplett, moderne og mobiltilpasset nettside
+    med domene og profesjonell e‑post – fast pris.
   </p>
 </header>
 
@@ -174,17 +180,12 @@ footer{
   <h2>💰 Pris</h2>
   <div class="price">3000 kr per år</div>
   <p>
-    Fast lav pris – ingen skjulte kostnader.  
-    Perfekt for små bedrifter, enkeltpersonforetak og prosjekter.
+    Fast lav pris – ingen skjulte kostnader.
+    Passer perfekt for små bedrifter og prosjekter.
   </p>
 </div>
 
 <div class="card">
-  <h2>📩 Interessert?</h2>
-  <p>
-    Send oss en kort henvendelse, så tar vi kontakt
-    for en uforpliktende prat.
-  </p>
 
   <form id="contactForm">
 
@@ -195,24 +196,28 @@ footer{
     <input id="email" type="email" name="email" required>
 
     <label for="message">Melding</label>
-    <textarea id="message" name="message"
+    <textarea id="message" name="message" required
       placeholder="Fortell kort hva du trenger…"></textarea>
 
-    <!-- Antispam -->
+    <!-- Anti‑spam -->
     <input type="text" name="_gotcha" style="display:none">
 
     <button type="submit">Send melding</button>
   </form>
 
+  <div id="validationError">
+    ❗ Vennligst skriv en melding – dette feltet er obligatorisk.
+  </div>
+
   <div id="successMessage">
     ✅ <strong>Meldingen er sendt!</strong><br>
-    Takk for henvendelsen – vi har mottatt forespørselen din
-    og tar kontakt så snart som mulig.
+    Vi har mottatt forespørselen din og tar kontakt så snart som mulig.
   </div>
 
   <div id="errorMessage">
     ❌ Noe gikk galt. Prøv igjen senere.
   </div>
+
 </div>
 
 </main>
@@ -225,12 +230,21 @@ footer{
 const form = document.getElementById('contactForm');
 const success = document.getElementById('successMessage');
 const errorMsg = document.getElementById('errorMessage');
+const validationError = document.getElementById('validationError');
+const messageField = document.getElementById('message');
 
 form.addEventListener('submit', async function(e){
   e.preventDefault();
 
+  validationError.style.display = 'none';
   success.style.display = 'none';
   errorMsg.style.display = 'none';
+
+  if(messageField.value.trim() === ''){
+    validationError.style.display = 'block';
+    messageField.focus();
+    return;
+  }
 
   const data = new FormData(form);
 
