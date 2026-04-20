@@ -102,9 +102,13 @@ iframe{
   gap:12px;
   z-index:1000;
 }
-@media (max-width:768px){
-  .chat-buttons{display:flex;}
+@media (max-width:768px),
+       (hover: none) and (pointer: coarse) {
+  .chat-buttons{
+    display:flex;
+  }
 }
+
 .chat-btn{
   width:56px;
   height:56px;
