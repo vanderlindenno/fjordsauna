@@ -773,7 +773,7 @@ fetch('https://www.vegårstue.no/badstua.json', {
 }
 
 updateSauna();
-setInterval(updateSauna,300000);
+setInterval(updateSauna, 60000); // 1 minuu
 
 document.addEventListener('DOMContentLoaded',()=>{
  const imgs=[...document.querySelectorAll('.gallery img')];
