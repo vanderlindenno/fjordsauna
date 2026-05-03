@@ -734,46 +734,65 @@ med fokus på varme, ro, enkelhet og ekte badstuestemning.
 </div>
 
 <script>
-document.querySelectorAll('.faq-question').forEach(q=>{
-  q.onclick=()=>q.parentElement.classList.toggle('open');
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.onclick = () => q.parentElement.classList.toggle('open');
 });
 
-const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
+const READY_TEMP = 70;
+const WARM_TEMP  = 40;
+const MAX_AGE_MIN = 15;
 
-function updateSauna(){
- 
-fetch('https://www.vegårstue.no/badstua.json', {
-  cache: 'no-store'
-})
-  .then(r=>r.json())
-  .then(d=>{
-    const t=d.temperature, h=d.humidity;
-    const u=new Date(d.updated);
-    const age=(Date.now()-u)/60000;
+function updateSauna() {
+  const url = `https://www.vegårstue.no/badstua.json?ts=${Date.now()}`;
 
-    const state=document.getElementById('saunaState');
-    const values=document.getElementById('saunaValues');
-    const upd=document.getElementById('updated');
+  fetch(url, {
+    cache: 'no-store'
+  })
+    .then(r => r.json())
+    .then(d => {
+      const t = d.temperature;
+      const h = d.humidity;
+      const u = new Date(d.updated);
+      const age = (Date.now() - u) / 60000;
 
-    let txt,icon,cls;
-    if(t>=READY_TEMP){txt="Badstuen er på tempratur nå :";icon="🔥";cls="sauna-ready";}
-    else if(t>=WARM_TEMP){txt="Badstuen varmes opp nå :";icon="🟡";cls="sauna-warm";}
-    else{txt="Badstuen er kald nå :";icon="❄️";cls="sauna-cold";}
+      const state  = document.getElementById('saunaState');
+      const values = document.getElementById('saunaValues');
+      const upd    = document.getElementById('updated');
 
-    state.textContent=txt;
-    state.className=`sauna-state ${cls}`;
-    values.innerHTML=`${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
-    upd.textContent=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+      let txt, icon, cls;
+      if (t >= READY_TEMP) {
+        txt = "Badstuen er på tempratur nå :";
+        icon = "🔥";
+        cls = "sauna-ready";
+      } else if (t >= WARM_TEMP) {
+        txt = "Badstuen varmes opp nå :";
+        icon = "🟡";
+        cls = "sauna-warm";
+      } else {
+        txt = "Badstuen er kald nå :";
+        icon = "❄️";
+        cls = "sauna-cold";
+      }
 
-    if(age>MAX_AGE_MIN){
-      state.textContent="⚠️ Data er eldre enn 15 minutter";
-      values.textContent="";
-    }
-  });
+      state.textContent = txt;
+      state.className = `sauna-state ${cls}`;
+      values.innerHTML = `${icon} ${t.toFixed(1).replace('.', ',')} °C – 💧 ${h} % luftfuktighet`;
+      upd.textContent = `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+
+      if (age > MAX_AGE_MIN) {
+        state.textContent = "⚠️ Data er eldre enn 15 minutter";
+        values.textContent = "";
+      }
+    })
+    .catch(() => {
+      document.getElementById('saunaState').textContent =
+        "⚠️ Kan ikke hente data fra badstuen";
+    });
 }
 
-updateSauna();
-setInterval(updateSauna, 60000); // 1 minuu
+updateSauna();                 // meteen laden
+setInterval(updateSauna, 60000); // elke minuut
+</script>
 
 document.addEventListener('DOMContentLoaded',()=>{
  const imgs=[...document.querySelectorAll('.gallery img')];
