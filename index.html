@@ -3,457 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vegårstue |  Vedfyrt privat badstue på Vegårshei</title>
-<meta name="description" content="Lei en koselig, vedfyrt privat badstue i Vegårshei. Badstuen er ferdig oppvarmet ved ankomst og passer perfekt for avslapning med familie eller venner.">
+
+<title>Vegårstue | Vedfyrt privat badstue på Vegårshei</title>
+<meta name="description" content="Lei en koselig, vedfyrt privat badstue i Vegårshei. Ferdig oppvarmet ved ankomst.">
 <meta name="robots" content="index, follow">
-<meta name="msvalidate.01" content="ECDE8635CD482D347FDD4FBB0BE44548" />  
-<link rel="canonical" href="https://www.vegårstue.no/">
-<link rel="apple-touch-icon" sizes="180x180" href="https://www.vegårstue.no/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://www.vegårstue.no/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://www.vegårstue.no/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="512x512" href="https://www.vegårstue.no/android-chrome-512x512.png">  
-<link rel="manifest" href="https://www.vegårstue.no/site.webmanifest">  
-<style>
-:root{
-  --primary:#2b5d6e;
-  --bg:#f5f7fa;
-  --card:#ffffff;
-}
-
+<link rel="canonical" href="https://www.vegårstue.no/ge/png" sizes="32x32" href="/favicon-32"5d6e;--bg:#f5f7fa;--card:#fff}
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:#333;
-}
-
-header{
-  background:var(--primary);
-  color:#fff;
-  text-align:center;
-  padding:2.5rem 1rem;
-}
-
-main{
-  max-width:820px;
-  margin:auto;
-  padding:1rem;
-}
-
-.card{
-  background:var(--card);
-  border-radius:12px;
-  padding:1.5rem;
-  margin-bottom:1rem;
-  box-shadow:0 4px 14px rgba(0,0,0,.05);
-}
-
-h2{
-  margin-top:0;
-  color:var(--primary);
-}
-
-.status{
-  font-size:1.4rem;
-  font-weight:700;
-}
-
-.meta{
-  margin-top:.4rem;
-  font-size:.9rem;
-  color:#555;
-}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:#333}
+header{background:var(--primary);color:#fff;text-align:center;padding:2.5rem 1rem}
+main{max-width:820px;margin:auto;padding:1rem}
+.card{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+h2{margin-top:0;color:var(--primary)}
 
 /* GALLERY */
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-@media (max-width:600px){
-  .gallery{grid-template-columns:repeat(2,1fr);}
-}
-.gallery img{
-  width:100%;
-  aspect-ratio:4/3;
-  object-fit:cover;
-  border-radius:8px;
-  cursor:pointer;
-  background:#e5e7eb;
-}
-
-/* MAP */
-iframe{
-  width:100%;
-  height:320px;
-  border:0;
-  border-radius:10px;
-}
-
-/* MOBILE */
-.mobile{display:none}
-.desktop{display:inline}
-@media (max-width:768px){
-  .mobile{display:inline}
-  .desktop{display:none}
-}
-
-/* CHAT BUTTONS – ALLEEN MOBIEL, SVG */
-.chat-buttons{
-  position:fixed;
-  bottom:20px;
-  right:15px;
-  display:none;
-  flex-direction:column;
-  gap:12px;
-  z-index:1000;
-}
-@media (max-width:768px),
-       (hover: none) and (pointer: coarse) {
-  .chat-buttons{
-    display:flex;
-  }
-}
-
-.chat-btn{
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 4px 10px rgba(0,0,0,.25);
-  overflow:hidden;   /* 🔑 DIT WAS DE MISSENDE SLEUTEL */
-}
-
-.chat-btn img{
-  width:56px;
-  height:56px;
-  object-fit:contain;
-  display:block;
-}
-
-.chat-btn.sms {
-  background:#0b5ed7;
-  order: 1;
-}
-.chat-btn.whatsapp {
-  background:#0b5ed7;
-  order: 2;
-}
-.chat-btn.call {
-  background:#0b5ed7;
-  order: 3;
-}
-  
-@keyframes contact-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(11, 94, 215, .6); }
-  70% { box-shadow: 0 0 0 14px rgba(11, 94, 215, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(11, 94, 215, 0); }
-}
-
-.chat-btn.sms{
-  animation: contact-pulse 2.2s infinite;
-}
-
-/* FAQ (ORIGINEEL) */
-.faq-item{
-  border-bottom:1px solid #e5e7eb;
-  padding:.8rem 0;
-}
-.faq-question{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:pointer;
-  font-weight:600;
-}
-.faq-question span{
-  font-size:1.4rem;
-  transition:transform .2s ease;
-}
-.faq-answer{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .25s ease;
-  color:#555;
-  font-size:.95rem;
-  margin-top:.4rem;
-}
-.faq-item.open .faq-answer{max-height:500px}
-.faq-item.open .faq-question span{transform:rotate(45deg)}
-
-footer{
-  text-align:center;
-  padding:1rem;
-  color:#777;
-}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;cursor:pointer}
 
 /* LIGHTBOX */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999}
 .lightbox.open{display:flex}
-.lightbox img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:10px;
-}
-.lb-close,.lb-prev,.lb-next{
-  position:absolute;
-  color:#fff;
-  font-size:2.4rem;
-  cursor:pointer;
-  user-select:none;
-}
+.lightbox img{max-width:90%;max-height:90%;border-radius:10px}
+.lb-close,.lb-prev,.lb-next{position:absolute;color:#fff;font-size:2.5rem;cursor:pointer;user-select:none}
 .lb-close{top:16px;right:20px}
 .lb-prev{left:20px;top:50%;transform:translateY(-50%)}
 .lb-next{right:20px;top:50%;transform:translateY(-50%)}
 
-/* Badstueklima – standaard / vet */
-.sauna-state{
-  font-size:1.1rem;
-  font-weight:400;   /* normaal */
-  margin:.3rem 0 .1rem;
-}
+/* FAQ */
+.faq-item{border-bottom:1px solid #e5e7eb;padding:.8rem 0}
+.faq-question{display:flex;justify-content:space-between;cursor:pointer;font-weight:600}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .25s ease;color:#555}
+.faq-item.open .faq-answer{max-height:800px}
 
-.sauna-values{
-  font-size:1.15rem;
-  font-weight:700;   /* VET */
-  margin-bottom:.35rem;
-}
+/* FOOTER */
+footer{text-align:center;padding:1rem;color:#777;font-size:.9rem}
+.footer-link{text-decoration:none;color:inherit;border-bottom:1px dotted}
+.footer-link:hover{transform:scale(1.05)}
 
-.sauna-updated{
-  font-size:.85rem;
-  color:#6b7280;
-}
-
-.sauna-cold{color:#1e40af;}
-.sauna-warm{color:#b45309;}
-.sauna-ready{color:#b91c1c;}
-
-footer {
-  color: #666;
-  font-size: 0.9em;
-}
-
-.footer-separator {
-  margin: 0 6px;
-  color: #999;
-}
-
-.footer-link {
-  color: inherit;                    /* zelfde kleur als footer */
-  font-family: inherit;              /* zelfde lettertype */
-  text-decoration: none;
-  cursor: pointer;
-  border-bottom: 1px dotted currentColor; /* constant subtiel zichtbaar */
-  display: inline-block;             /* nodig voor scale */
-  transition: transform 0.15s ease;  /* soepele animatie */
-}
-
-.footer-link:hover {
-  transform: scale(1.08);             /* iets groter bij hover */
-}
-
-/* 🚧 MAINTENANCE MODAL */
-.maintenance-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:10000;
-}
-
-.maintenance-modal.open{
-  display:flex;
-}
-
-.maintenance-box{
-  background:#fff;
-  max-width:420px;
-  margin:1rem;
-  padding:1.8rem 1.6rem;
-  border-radius:14px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-  animation:modalFadeIn .25s ease;
-}
-
-.maintenance-box h2{
-  color:#b91c1c;
-  margin-top:0;
-}
-
-.maintenance-box p{
-  margin:.6rem 0;
-  color:#333;
-}
-
-.maintenance-muted{
-  font-size:.9rem;
-  color:#666;
-}
-
-.maintenance-box button{
-  margin-top:1.2rem;
-  padding:.6rem 1.2rem;
-  border:none;
-  border-radius:8px;
-  background:var(--primary);
-  color:#fff;
-  font-size:1rem;
-  cursor:pointer;
-}
-
-@keyframes modalFadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:none}
-}  
-
-
-
-.faq-answer {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.faq-image {
-  width: 200px;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
-  .faq-answer {
-    flex-direction: column;
-  }
-
-  .faq-image {
-    width: 100%;
-  }
-}
-
-/* SEO-tekst: normale tekstflow, geen kolommen */
-.seo-text {
-  display: block;
-}
-.seo-text p {
-  margin-bottom: 0.9rem;
-} 
-/* SEO-tekst: geen hoogtebeperking */
-.faq-item.open .faq-answer.seo-text {
-  max-height: none;
-}
+/* MAINTENANCE */
+.maintenance-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:10000}
+.maintenance-modal.open{display:flex}
+.maintenance-box{background:#fff;padding:1.8rem;border-radius:14px;max-width:420px;text-align:center}
 </style>
-<script defer src="https://cloud.umami.is/script.js" data-website-id="e5cf3d8b-e123-4ec1-af5a-0b68585fccf7"></script>  
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Vegårstue",
-  "image": "https://raw.githubusercontent.com/vanderlindenno/fjordsauna/refs/heads/main/sauna.png",
-  "description": "Privat vedfyrt badstue i Vegårshei",
-  "telephone": "+4794505716",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Fjordbygdveien 930",
-    "addressLocality": "Vegårshei",
-    "addressCountry": "NO"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": "58.794745",
-    "longitude": "8.791226"
-  },
-  "priceRange": "500 NOK per time"
-}
-  
-</script>  
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Må jeg ha på badetøy?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Det bestemmer du helt selv. Det viktigste er at du føler deg komfortabel og avslappet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Er det dusj?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ja, det finnes en kaldtvannsdusj bak badstuen."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Hva må jeg ta med?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Håndkle er påkrevd. Drikkevann og badesandaler anbefales."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Hvor mange er det plass til?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Badstuen har plass til opptil seks personer. Best komfort oppnås med fire til fem."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Er det parkering?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ja, du kan parkere til venstre for garasjen. Alternativt kan du parkere ved småbåthavnen og gå opp."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Hva er avbestillingsvilkårene?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Gratis avbestilling inntil 24 timer før avtalt tidspunkt."
-      }
-    }
-  ]
-}
-</script>  
 </head>
-<!-- 🚧 DRIFTSMELDING POPUP -->
-<div id="maintenanceModal" class="maintenance-modal">
-  <div class="maintenance-box">
-    <h2>ℹ️ Midlertidig stengt</h2>
-    <p>
-      Badstuen er for øyeblikket <strong>midlertidig stengt grunnet vedlikehold</strong>.
-    </p>
-    <p>
-      Vi jobber med forbedringer og gleder oss til å ønske gjester velkommen igjen svært snart 🔥
-    </p>
-    <p class="maintenance-muted">
-      Takk for forståelsen – ta gjerne kontakt dersom du har spørsmål.
-    </p>
-    <button id="maintenanceClose">Lukk</button>
-  </div>
-</div>
+
 <body>
 
 <header>
@@ -464,385 +57,95 @@ footer {
 <main>
 
 <div class="card">
-  <h2>🧖 Om badstuen</h2>
-<p>Vi tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue på Killand i Vegårshei – perfekt for avslapning alene eller sammen med familie og venner.</p>
-<p>Badstuen er alltid ferdig oppvarmet når dere ankommer (må forhåndsbestilles), slik at dere kan senke skuldrene og nyte varmen umiddelbart.</p>
-<p>For avkjøling finnes det en kald dusj, som gir en deilig kontrast til varmen. Det er også mulighet for klesskift utendørs, bak badstuen.</p>
+<h2>🖼️ Bilder</h2>
+<div class="gallery">
+  <img src="vegårshei-badstue-01g src="vegårshei2.jpg
+  <img src="vegårshei-badstue-03årshei-badstue-04.jpg
+  <img src="vegårshei5.jpg
+  <img src="vegårshei-badstue-iv>
 </div>
 
 <div class="card">
-  <h2>🌡️ Badstueklima</h2>
-  <div id="saunaState" class="sauna-state">Henter sanntidsdata…</div>
-  <div id="saunaValues" class="sauna-values"></div>
-  <div id="updated" class="sauna-updated"></div>
+<h2>❓ Ofte stilte spørsmål</h2>
+
+<div class="faq-item">
+  <div class="faq-question">Må jeg ha på badetøy? <span>＋</span></div>
+  <div class="faq-answer">Det bestemmer du helt selv.</div>
 </div>
 
-<div class="card">
-  <h2>🖼️ Bilder</h2>
-  <div class="gallery">
-    <img src="vegårshei-badstue-01.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-    <img src="vegårshei-badstue-02.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-    <img src="vegårshei-badstue-03.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-    <img src="vegårshei-badstue-04.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-    <img src="vegårshei-badstue-05.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-    <img src="vegårshei-badstue-06.jpg" loading="lazy" decoding="async" alt="Vegårshei badstue">
-  </div>
+<div class="faq-item">
+  <div class="faq-question">Er det dusj? <span>＋</span></div>
+  <div class="faq-answer">Ja, kaldtvannsdusj bak badstuen.</div>
 </div>
 
-<div class="card">
-  <h2>📅 Åpningstider</h2>
-  <ul>
-    <li>Onsdag og fredag etter avtale.</li>
-    <li>Kl. 18:00 – 23:00</li>
-    <li>Andre dager kan muligens avtales, ta kontakt.</li>
-  </ul>
-</div>
-
-<div class="card">
-  <h2>💰 Pris</h2>
-  <p><strong>500 kr per time</strong> – uavhengig av antall personer.</p>
-  <p>Betaling via Vipps etter bekreftelse av dato og tid via SMS eller WhatsApp.</p>
-</div>
-
-<div class="card">
-  <h2>📞 Reservasjon av badstua</h2>
-  <span class="desktop"><strong>945 05 716</strong></span>
-  <a class="mobile" href="tel:+4794505716">945 05 716</a>
-  <p>Badstuen kan reserveres via SMS eller WhatsApp, og reservasjonen gjelder per hele time.</p>
-</div>
-  
-
-<div class="card">
-  <h2>📍 Lokasjon</h2>
-  <iframe 
-    src="https://www.google.com/maps?q=58.794745,8.791226&z=14&output=embed" 
-    loading="lazy">
-  </iframe>
-  <p class="adres">
-    Fjordbygdveien 930, Vegårshei <br>
-    <small>(øverste hus)</small>
-  </p>
-</div>
-
-
-<div class="card">
-  <h2>❓ Ofte stilte spørsmål</h2>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      👙 Må jeg ha på badetøy?
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      Det bestemmer du helt selv 🙂 Det viktigste er at du føler deg komfortabel og avslappet.
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      🚿 Er det dusj?
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      Ja, det finnes en kaldtvannsdusj bak badstuen.
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      🎒 Hva må jeg ta med?
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      ✅ Håndkle (påkrevd)<br>
-      💧 Drikkevann anbefales<br>
-      🩴 Badesandaler/flip-flops anbefales
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      🌊 Kan jeg bade i fjorden?
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      Ja, absolutt, det går helt fint 😊. Det er fullt mulig å bade i fjorden,
-      men vær oppmerksom på at det er et lite stykke å gå fra badstuen før du
-      kommer helt ned til vannet. Det anbefales spesielt å ta et fjordbad etter
-      at dere er ferdige med badstuesesjonen.
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      👥 Hvor mange er det plass til?
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      Det er plass til opptil 6 gjester, men den beste komforten oppnås med 4–5 personer.
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-    👋 Blir vi mottatt?
-   <span>＋</span>
-    </div>
-    <div class="faq-answer">
-    Dere blir som regel ikke mottatt ved ankomst.
-    Badstuen er ferdig oppvarmet og klar når dere ankommer til avtalt tidspunkt.
-    Dere kan skifte bak garasjen, gå mellom badstuen og garasjen og videre rundt på baksiden.
-    Her finner dere også kaldtvannsdusjen.
-    Vi er selvfølgelig tilgjengelige dersom dere lurer på noe.
-   </div>
-  </div>
-  
-   <div class="faq-item">
-    <div class="faq-question">
-      🅿️ Parkering
-      <span>+</span>
-    </div>
-    <div class="faq-answer">
-      Når du ankommer, kan du parkere til venstre for garasjen. 
-      Det er også mulig å parkere ved småbåthavnen og ta en kort tur opp.
-      
-      <img src="parkering.jpg" alt="Parkering" class="faq-image">
-    </div>
-  </div>
-  
-  <div class="faq-item">
-    <div class="faq-question">
-      🛡️ Sikkerhet og personvern
-      <span>+</span>
-    </div>
-    <div class="faq-answer">
-      Vennligst merk at oppkjørselen er kameraovervåket av hensyn til sikkerhet.
-      Badestueområdet er helt privat og ikke overvåket.
-      
-      <img src="kamera.jpg" alt="Kameraovervåking" class="faq-image">
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-question">
-      📅 Avbestillingsvilkår
-      <span>＋</span>
-    </div>
-    <div class="faq-answer">
-      Gratis inntil 24 timer før.
-    </div>
-  </div>
-  
-<div class="card faq-item">
-  <div class="faq-question">
-    ℹ️ Om Vegårstue badstuen
-    <span>＋</span>
-  </div>
-  <div class="faq-answer seo-text">
-    
-<p>
-Vegårstue tilbyr utleie av en koselig og stemningsfull, vedfyrt privat badstue på Killand i Vegårshei.
-Her kan du senke skuldrene og nyte en autentisk badstueopplevelse i rolige omgivelser,
-mellom fjell og fjord. Badstuen passer perfekt for deg som ønsker avslapning alene,
-eller sammen med familie og venner.
-</p>
-
-<p>
-Badstuen er ferdig oppvarmet ved ankomst når du forhåndsbestiller,
-slik at du kan nyte varmen med én gang.
-Temperaturen overvåkes i sanntid, og badstuen holder et behagelig og stabilt klima
-gjennom hele besøket. Etter badstuen kan du kjøle deg ned under kaldtvannsdusjen
-som er tilgjengelig rett utenfor, noe som gir en forfriskende kontrast til varmen.
-</p>
-
-<p>
-Vegårstue ligger i naturskjønne omgivelser i Vegårshei, med kort vei til vannet.
-Det er fullt mulig å kombinere badstueoppholdet med et forfriskende fjordbad
-etter endt økt. Området gir en privat og tilbaketrukket atmosfære,
-og badstuen brukes kun av dere i den tiden dere har reservert.
-</p>
-
-<p>
-Badstuen har plass til opptil seks personer, men for best komfort
-anbefales fire til fem gjester. Dette gjør Vegårstue godt egnet
-både for små vennegjenger, par og familier som ønsker en rolig
-og sosial opplevelse uten forstyrrelser.
-</p>
-
-<p>
-Pris for leie av badstuen er per time og uavhengig av antall personer.
-Reservasjon skjer enkelt via SMS eller WhatsApp,
-og betaling gjøres via Vipps etter avtale.
-Badstuen leies per hele time, og åpningstider er onsdag og fredag etter avtale,
-med mulighet for fleksibilitet andre dager.
-</p>
-
-<p>
-Vegårstue er et ideelt valg for deg som søker en privat badstueopplevelse i Vegårshei,
-med fokus på varme, ro, enkelhet og ekte badstuestemning.
-</p>
-
-  </div>
-</div>
-
-
-  
 </div>
 
 </main>
 
 <footer>
-  © 2026 Vegårstue
-  <span class="footer-separator">•</span>
-  <a
-    href="https://vanderlindenno.github.io/fjordsauna/webdesign.html"
-    class="footer-link"
-    title="Les mer om webdesign"
-  >
-    webdesign og utvikling
-  </a>
-</footer>
-  
-<!-- ✅ SVG CHAT KNOPPEN  -->
-<div class="chat-buttons">
+© 2026 Vegårstue •
+<a class="footer-link" href="https://vanderlindenno.github.io/fjordsauna/webdesign.html/footer>
 
-  <a class="chat-btn whatsapp"
-     href="https://wa.me/4794505716"
-     aria-label="WhatsApp">
-    <img src="wa.png" alt="WhatsApp">
-  </a>
-
-  <a class="chat-btn sms"
-     href="sms:+4794505716"
-     aria-label="SMS">
-    <img src="sms.png" alt="SMS">
-  </a>
-  
-<a class="chat-btn call"
-   href="tel:+4794505716"
-   aria-label="Bellen">
-  <img src="phone.png" alt="Ring">
-</a>
-
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+<span class="lb-close" id="lbClose">✕</span>
+<span class="lb-prev" id="lbPrev">❮</span>
+<img id="lbImage">
+<span class="lb-next" id="lbNext">❯</span>
 </div>
 
-<div class="lightbox" id="lightbox">
-  <span class="lb-close" id="lbClose">✕</span>
-  <span class="lb-prev" id="lbPrev">❮</span>
-  <img id="lbImage">
-  <span class="lb-next" id="lbNext">❯</span>
+<!-- MAINTENANCE -->
+<div class="maintenance-modal" id="maintenanceModal">
+<div class="maintenance-box">
+  <h2>ℹ️ Midlertidig stengt</h2>
+  <p>Badstuen er midlertidig stengt.</p>
+  <button id="maintenanceClose">Lukk</button>
+</div>
 </div>
 
 <script>
-document.querySelectorAll('.faq-question').forEach(q => {
-  q.onclick = () => q.parentElement.classList.toggle('open');
-});
+/* FAQ */
+document.querySelectorAll('.faq-question').forEach(q=>{
+q.onclick=()=>q.parentElement.classList.toggle('open')
+})
 
-const READY_TEMP = 68;
-const WARM_TEMP  = 40;
-const MAX_AGE_MIN = 15;
+/* LIGHTBOX */
+document.addEventListener('DOMContentLoaded',()=>{
+const imgs=[...document.querySelectorAll('.gallery img')]
+const lb=document.getElementById('lightbox')
+const lbImg=document.getElementById('lbImage')
+const lbClose=document.getElementById('lbClose')
+const lbPrev=document.getElementById('lbPrev')
+const lbNext=document.getElementById('lbNext')
+let i=0
 
-function updateSauna() {
-  const url = `https://www.vegårstue.no/badstua.json?ts=${Date.now()}`;
-
-  fetch(url, {
-    cache: 'no-store'
-  })
-    .then(r => r.json())
-    .then(d => {
-      const t = d.temperature;
-      const h = d.humidity;
-      const u = new Date(d.updated);
-      const age = (Date.now() - u) / 60000;
-
-      const state  = document.getElementById('saunaState');
-      const values = document.getElementById('saunaValues');
-      const upd    = document.getElementById('updated');
-
-      let txt, icon, cls;
-      if (t >= READY_TEMP) {
-        txt = "Badstuen er på tempratur nå :";
-        icon = "🔥";
-        cls = "sauna-ready";
-      } else if (t >= WARM_TEMP) {
-        txt = "Badstuen varmes opp nå :";
-        icon = "🟡";
-        cls = "sauna-warm";
-      } else {
-        txt = "Badstuen er kald nå :";
-        icon = "❄️";
-        cls = "sauna-cold";
-      }
-
-      state.textContent = txt;
-      state.className = `sauna-state ${cls}`;
-      values.innerHTML = `${icon} ${t.toFixed(1).replace('.', ',')} °C – 💧 ${h} % luftfuktighet`;
-      upd.textContent = `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-
-      if (age > MAX_AGE_MIN) {
-        state.textContent = "⚠️ Data er eldre enn 15 minutter";
-        values.textContent = "";
-      }
-    })
-    .catch(() => {
-      document.getElementById('saunaState').textContent =
-        "⚠️ Kan ikke hente data fra badstuen";
-    });
+function show(n){
+i=(n+imgs.length)%imgs.length
+lbImg.src=imgs[i].src
 }
 
-updateSauna();                 // meteen laden
-setInterval(updateSauna, 60000); // elke minuut
-</script>
+imgs.forEach((img,idx)=>{
+img.onclick=()=>{show(idx);lb.classList.add('open')}
+})
 
-document.addEventListener('DOMContentLoaded',()=>{
- const imgs=[...document.querySelectorAll('.gallery img')];
- const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImage');
- let i=0;
- function show(n){i=(n+imgs.length)%imgs.length;lbImg.src=imgs[i].src;}
- imgs.forEach((img,idx)=>img.onclick=()=>{show(idx);lb.classList.add('open');});
- lbClose.onclick=()=>lb.classList.remove('open');
- lbPrev.onclick=()=>show(i-1);
- lbNext.onclick=()=>show(i+1);
- lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open');};
- document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')lb.classList.remove('open');
-  if(e.key==='ArrowRight')show(i+1);
-  if(e.key==='ArrowLeft')show(i-1);
- });
- let startX=0;
- lb.addEventListener('touchstart',e=>startX=e.changedTouches[0].screenX,{passive:true});
- lb.addEventListener('touchend',e=>{
-  const d=e.changedTouches[0].screenX-startX;
-  if(Math.abs(d)>50) d<0?show(i+1):show(i-1);
- });
-});
+lbClose.onclick=()=>lb.classList.remove('open')
+lbPrev.onclick=()=>show(i-1)
+lbNext.onclick=()=>show(i+1)
 
-/* ================================
-   🚧 MAINTENANCE POPUP – 
-   ================================ */
+document.addEventListener('keydown',e=>{
+if(!lb.classList.contains('open'))return
+if(e.key==='Escape')lb.classList.remove('open')
+if(e.key==='ArrowRight')show(i+1)
+if(e.key==='ArrowLeft')show(i-1)
+})
+})
 
-const MAINTENANCE_MODE = true; // true = popup AAN, false = UIT
-
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('maintenanceModal');
-  const closeBtn = document.getElementById('maintenanceClose');
-
-  if (MAINTENANCE_MODE) {
-    modal.classList.add('open');
-  }
-
-  closeBtn.onclick = () => {
-    modal.classList.remove('open');
-  };
-
-  modal.onclick = e => {
-    if (e.target === modal) {
-      modal.classList.remove('open');
-    }
-  };
-});
-  
+/* MAINTENANCE */
+const MAINTENANCE_MODE=true
+const modal=document.getElementById('maintenanceModal')
+const closeBtn=document.getElementById('maintenanceClose')
+if(MAINTENANCE_MODE)modal.classList.add('open')
+closeBtn.onclick=()=>modal.classList.remove('open')
 </script>
 
 </body>
