@@ -741,7 +741,10 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
 
 function updateSauna(){
- fetch(`badstua.json?ts=${Date.now()}`)
+ 
+fetch('https://www.vegårstue.no/badstua.json', {
+  cache: 'no-store'
+})
   .then(r=>r.json())
   .then(d=>{
     const t=d.temperature, h=d.humidity;
