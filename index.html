@@ -734,46 +734,146 @@ med fokus på varme, ro, enkelhet og ekte badstuestemning.
 </div>
 
 <script>
-document.querySelectorAll('.faq-question').forEach(q=>{
-  q.onclick=()=>q.parentElement.classList.toggle('open');
+/* ================================
+   FAQ TOGGLE
+   ================================ */
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.onclick = () => q.parentElement.classList.toggle('open');
 });
 
-const READY_TEMP=70, WARM_TEMP=40, MAX_AGE_MIN=15;
 
-function updateSauna(){
- 
-fetch('https://www.vegårstue.no/badstua.json', {
-  cache: 'no-store'
-})
-  .then(r=>r.json())
-  .then(d=>{
-    const t=d.temperature, h=d.humidity;
-    const u=new Date(d.updated);
-    const age=(Date.now()-u)/60000;
+/* ================================
+   BADSTUE – SLIM POLLING
+   ================================ */
 
-    const state=document.getElementById('saunaState');
-    const values=document.getElementById('saunaValues');
-    const upd=document.getElementById('updated');
+const READY_TEMP = 70;
+const WARM_TEMP = 40;
+const MAX_AGE_MIN = 15;
 
-    let txt,icon,cls;
-    if(t>=READY_TEMP){txt="Badstuen er på tempratur nå :";icon="🔥";cls="sauna-ready";}
-    else if(t>=WARM_TEMP){txt="Badstuen varmes opp nå :";icon="🟡";cls="sauna-warm";}
-    else{txt="Badstuen er kald nå :";icon="❄️";cls="sauna-cold";}
+let lastTemp = null;
+let pollInterval = 60000; // start op 1 minuut
+let pollTimer = null;
 
-    state.textContent=txt;
-    state.className=`sauna-state ${cls}`;
-    values.innerHTML=`${icon} ${t.toFixed(1).replace('.',',')} °C – 💧 ${h} % luftfuktighet`;
-    upd.textContent=`Sist oppdatert: ${u.toLocaleString('no-NO')}`;
-
-    if(age>MAX_AGE_MIN){
-      state.textContent="⚠️ Data er eldre enn 15 minutter";
-      values.textContent="";
-    }
-  });
+function scheduleNextPoll(interval) {
+  if (pollTimer) clearTimeout(pollTimer);
+  pollTimer = setTimeout(updateSauna, interval);
 }
 
+function updateSauna() {
+  fetch('https://www.vegårstue.no/badstua.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(d => {
+      const t = d.temperature;
+      const h = d.humidity;
+      const u = new Date(d.updated);
+      const age = (Date.now() - u) / 60000;
+
+      const state  = document.getElementById('saunaState');
+      const values = document.getElementById('saunaValues');
+      const upd    = document.getElementById('updated');
+
+      let txt, icon, cls;
+
+      if (t >= READY_TEMP) {
+        txt = "Badstuen er på temperatur nå :";
+        icon = "🔥";
+        cls = "sauna-ready";
+      } else if (t >= WARM_TEMP) {
+        txt = "Badstuen varmes opp nå :";
+        icon = "🟡";
+        cls = "sauna-warm";
+      } else {
+        txt = "Badstuen er kald nå :";
+        icon = "❄️";
+        cls = "sauna-cold";
+      }
+
+      state.textContent = txt;
+      state.className = `sauna-state ${cls}`;
+      values.innerHTML = `${icon} ${t.toFixed(1).replace('.', ',')} °C – 💧 ${h} % luftfuktighet`;
+      upd.textContent = `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
+
+      if (age > MAX_AGE_MIN) {
+        state.textContent = "⚠️ Data er eldre enn 15 minutter";
+        values.textContent = "";
+      }
+
+      /* 🔁 Automatisk interval-justering */
+      if (lastTemp !== null && Math.abs(t - lastTemp) < 0.1) {
+        pollInterval = 300000; // 5 min ved stilstand
+      } else {
+        pollInterval = 60000;  // 1 min ved endring
+      }
+
+      lastTemp = t;
+      scheduleNextPoll(pollInterval);
+    })
+    .catch(() => {
+      // Ved feil: rolig fallback
+      scheduleNextPoll(300000);
+    });
+}
+
+// 🚀 Start umiddelbart
 updateSauna();
-setInterval(updateSauna, 60000); // 1 minuu
+
+
+/* ================================
+   LIGHTBOX
+   ================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const imgs = [...document.querySelectorAll('.gallery img')];
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImage');
+  let i = 0;
+
+  function show(n) {
+    i = (n + imgs.length) % imgs.length;
+    lbImg.src = imgs[i].src;
+  }
+
+  imgs.forEach((img, idx) => img.onclick = () => {
+    show(idx);
+    lb.classList.add('open');
+  });
+
+  lbClose.onclick = () => lb.classList.remove('open');
+  lbPrev.onclick = () => show(i - 1);
+  lbNext.onclick = () => show(i + 1);
+  lb.onclick = e => { if (e.target === lb) lb.classList.remove('open'); };
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') lb.classList.remove('open');
+    if (e.key === 'ArrowRight') show(i + 1);
+    if (e.key === 'ArrowLeft') show(i - 1);
+  });
+
+  let startX = 0;
+  lb.addEventListener('touchstart', e => startX = e.changedTouches[0].screenX, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const d = e.changedTouches[0].screenX - startX;
+    if (Math.abs(d) > 50) d < 0 ? show(i + 1) : show(i - 1);
+  });
+});
+
+
+/* ================================
+   🚧 MAINTENANCE POPUP
+   ================================ */
+
+const MAINTENANCE_MODE = true;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('maintenanceModal');
+  const closeBtn = document.getElementById('maintenanceClose');
+
+  if (MAINTENANCE_MODE) modal.classList.add('open');
+
+  closeBtn.onclick = () => modal.classList.remove('open');
+  modal.onclick = e => { if (e.target === modal) modal.classList.remove('open'); };
+});
+</script>
 
 document.addEventListener('DOMContentLoaded',()=>{
  const imgs=[...document.querySelectorAll('.gallery img')];
