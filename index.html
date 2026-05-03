@@ -742,22 +742,10 @@ document.querySelectorAll('.faq-question').forEach(q => {
 });
 
 
-/* ================================
-   BADSTUE – SLIM POLLING
-   ================================ */
-
+<script>
 const READY_TEMP = 68;
 const WARM_TEMP = 40;
 const MAX_AGE_MIN = 15;
-
-let lastTemp = null;
-let pollInterval = 60000; // start op 1 minuut
-let pollTimer = null;
-
-function scheduleNextPoll(interval) {
-  if (pollTimer) clearTimeout(pollTimer);
-  pollTimer = setTimeout(updateSauna, interval);
-}
 
 function updateSauna() {
   fetch('https://www.vegårstue.no/badstua.json', { cache: 'no-store' })
@@ -790,32 +778,26 @@ function updateSauna() {
 
       state.textContent = txt;
       state.className = `sauna-state ${cls}`;
-      values.innerHTML = `${icon} ${t.toFixed(1).replace('.', ',')} °C – 💧 ${h} % luftfuktighet`;
+      values.innerHTML =
+        `${icon} ${t.toFixed(1).replace('.', ',')} °C – 💧 ${h} % luftfuktighet`;
       upd.textContent = `Sist oppdatert: ${u.toLocaleString('no-NO')}`;
 
       if (age > MAX_AGE_MIN) {
         state.textContent = "⚠️ Data er eldre enn 15 minutter";
         values.textContent = "";
       }
-
-      /* 🔁 Automatisk interval-justering */
-      if (lastTemp !== null && Math.abs(t - lastTemp) < 0.1) {
-        pollInterval = 300000; // 5 min ved stilstand
-      } else {
-        pollInterval = 60000;  // 1 min ved endring
-      }
-
-      lastTemp = t;
-      scheduleNextPoll(pollInterval);
     })
     .catch(() => {
-      // Ved feil: rolig fallback
-      scheduleNextPoll(300000);
+      console.warn('Kunne ikke hente badstuedata');
     });
 }
 
-// 🚀 Start umiddelbart
+/* ✅ Direct bij laden */
 updateSauna();
+
+/* ✅ ALTIJD elke minuut */
+setInterval(updateSauna, 60000);
+</script>
 
 
 /* ================================
