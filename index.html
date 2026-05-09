@@ -356,6 +356,12 @@ footer {
 .faq-item.open .faq-answer.seo-text {
   max-height: none;
 }
+.mobile{display:none}
+.desktop{display:inline}
+@media (max-width:768px){
+  .mobile{display:inline}
+  .desktop{display:none}
+}  
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="e5cf3d8b-e123-4ec1-af5a-0b68585fccf7"></script>  
 <script type="application/ld+json">
@@ -491,9 +497,17 @@ footer {
 
 <div class="card">
   <h2>💬 Reservasjon av badstua</h2>
-  
-  <a class="mobile" href="sms:+4794505716">Send SMS for reservasjon</a>
-  
+
+  <!-- Desktop: telefonnummer synlig -->
+  <span class="desktop">
+    <strong>945 05 716</strong>
+  </span>
+
+  <!-- Mobil: kun SMS-knapp -->
+  <a class="mobile" href="sms:+4794505716">
+    Send SMS for reservasjon
+  </a>
+
   <p>Badstuen kan reserveres via SMS eller WhatsApp, og reservasjonen gjelder per hele time.</p>
 </div>
 
