@@ -36,8 +36,8 @@ jobs:
           DATA=$(curl -s https://api.netatmo.com/api/getstationsdata \
             -H "Authorization: Bearer $TOKEN")
 
-          TEMP=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Temperature')
-          HUM=$(echo "$DATA"  | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstua") | .dashboard_data.Humidity')
+          TEMP=$(echo "$DATA" | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstue") | .dashboard_data.Temperature')
+          HUM=$(echo "$DATA"  | jq -r '.body.devices[0].modules[] | select(.module_name=="Badstue") | .dashboard_data.Humidity')
           UPDATED=$(date -Iseconds)
 
           echo "🌡️ Temperatur: $TEMP °C"
