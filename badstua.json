@@ -1,5 +1,5 @@
 {
-  "temperature": null,
-  "humidity": null,
-  "updated": "2026-06-24T19:00:47+00:00"
+  "temperature": 33.2,
+  "humidity": 45,
+  "updated": "2026-06-24T19:05:18+00:00"
 }
